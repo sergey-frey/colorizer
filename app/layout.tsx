@@ -1,9 +1,10 @@
+import { cn } from "@nextui-org/react";
 import type { Metadata } from "next";
 import "./globals.css";
-import { cn, NextUIProvider } from "@nextui-org/react";
 
 // Supports weights 100-900
 import "@fontsource-variable/montserrat";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Colorizer",
@@ -18,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <NextUIProvider>
-          <main className={cn("header")}>{children}</main>
-        </NextUIProvider>
+        <Providers>
+          <main className={cn("main")}>{children}</main>
+        </Providers>
       </body>
     </html>
   );

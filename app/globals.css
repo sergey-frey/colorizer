@@ -2,12 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+html {
+  min-height: 100dvh;
+}
+
 body {
   display: grid;
   grid-template-areas:
     "header"
-    "main";
-  grid-template-rows: auto 1fr;
+    "main"
+    "footer";
+  grid-template-rows: auto 1fr auto;
 
   font-family: "Montserrat Variable", sans-serif;
 }
@@ -18,4 +24,19 @@ body {
 
 .main {
   grid-area: main;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+body .rcp-root {
+  --rcp-background-color: transparent;
+  --rcp-field-input-color: #000000;
+  /* --rcp-field-input-border-color */
+  /* --rcp-field-label-color */
+}
+
+body .rcp-saturation {
+  border-radius: 10px;
 }

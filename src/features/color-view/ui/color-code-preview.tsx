@@ -1,5 +1,5 @@
 import { Color } from "@/src/entities/palette";
-import { getRGBAStyle } from "@/src/shared/lib/color";
+import { getRGBAStyle, getTextColorByBg } from "@/src/shared/lib/color";
 import { cn } from "@nextui-org/theme";
 import { HTMLAttributes } from "react";
 
@@ -13,7 +13,11 @@ export const ColorCodePreview = ({
   ...props
 }: ColorCodePreviewProps) => {
   return (
-    <span {...props} className={cn("text-xs", className)}>
+    <span
+      {...props}
+      className={cn("text-xs", className)}
+      style={{ color: getRGBAStyle(getTextColorByBg(color)) }}
+    >
       {getRGBAStyle(color)}
     </span>
   );
