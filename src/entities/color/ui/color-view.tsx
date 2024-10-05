@@ -1,7 +1,7 @@
 "use client";
 
-import { Color } from "@/src/entities/palette";
 import { getRGBAStyle } from "@/src/shared/lib/color";
+import { Color } from "@/src/shared/types/color.types";
 import { copyToClipboard } from "@/src/shared/utils/copy";
 import { useTemporaryDisabled } from "@/src/shared/utils/use-temporary-disabled";
 import {

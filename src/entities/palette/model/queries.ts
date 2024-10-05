@@ -1,6 +1,6 @@
 import { paletteApi } from "@/src/shared/api/instance";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Color, Palette } from "../types/palette.types";
+import { Color, Palette } from "../../../shared/types/palette.types";
 import { useEffect } from "react";
 import { queryClient } from "@/src/shared/query-client";
 
@@ -13,7 +13,7 @@ const getPaletteWithIdKey = (id?: Palette["id"]) => {
 export const usePalettesQuery = () => {
   return useQuery<Palette[]>({
     queryFn: () => {
-      return paletteApi.get("/").json();
+      return paletteApi.get("").json();
     },
     queryKey: [ALL_PALETTES_KEY],
   });

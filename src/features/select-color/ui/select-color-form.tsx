@@ -1,12 +1,12 @@
 "use client";
 
-import { Color } from "@/src/entities/palette";
 import { cn } from "@nextui-org/theme";
 import { FormEvent, FormHTMLAttributes, ReactNode } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 
 import "react-color-palette/css";
 import { roundColorChannels } from "../model/round-color-channels";
+import { Color } from "@/src/shared/types/color.types";
 
 type SelectColorFormProps = Omit<
   FormHTMLAttributes<HTMLFormElement>,

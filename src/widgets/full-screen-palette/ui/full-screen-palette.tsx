@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  Color,
-  Palette,
+  FullScreenPaletteView,
   useAddColorToPalette,
   usePalettesByIdQuery,
 } from "@/src/entities/palette";
-import { ColorView } from "@/src/features/color-view";
 import { SelectColorForm } from "@/src/features/select-color";
+import { Color } from "@/src/shared/types/color.types";
+import { Palette } from "@/src/shared/types/palette.types";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import {
@@ -17,9 +17,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
-import { cn } from "@nextui-org/theme";
 import { HTMLAttributes } from "react";
-import { FullScreenColorsList } from "./colors-list";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -27,7 +25,6 @@ type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
 
 export const FullScreenPalette = ({
   paletteId,
-  className,
   ...props
 }: FullScreenPaletteProps) => {
   const paletteQuery = usePalettesByIdQuery(paletteId);
@@ -49,30 +46,25 @@ export const FullScreenPalette = ({
     cb();
   };
 
-  return (
-    <section
-      {...props}
-      className={cn("h-full", "grid grid-rows-[1fr_auto]", className)}
-    >
-      <FullScreenColorsList
-        amountOfColors={paletteQuery.data?.colors.length ?? 4}
-      >
-        {paletteQuery.data?.colors.map((color, i) => {
-          return <ColorView key={i} color={color} />;
-        })}
-      </FullScreenColorsList>
+  if (!paletteQuery.data) return null;
 
-      <div className="p-2">
-        <Button
-          color="primary"
-          className="w-full"
-          endContent={<PlusIcon className="w-5" />}
-          isLoading={isLoadingAddColorButton}
-          onClick={handleAddColorClick}
-        >
-          Add color
-        </Button>
-      </div>
+  return (
+    <>
+      <FullScreenPaletteView
+        {...props}
+        palette={paletteQuery.data}
+        actions={
+          <Button
+            color="primary"
+            className="w-full"
+            endContent={<PlusIcon className="w-5" />}
+            isLoading={isLoadingAddColorButton}
+            onClick={handleAddColorClick}
+          >
+            Add color
+          </Button>
+        }
+      />
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
@@ -93,6 +85,6 @@ export const FullScreenPalette = ({
           )}
         </ModalContent>
       </Modal>
-    </section>
+    </>
   );
 };
