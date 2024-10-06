@@ -1,18 +1,5 @@
-import { Color } from "@/src/entities/palette";
-
-const blackColor: Color = {
-  r: 0,
-  g: 0,
-  b: 0,
-  a: 1,
-};
-
-const whiteColor: Color = {
-  r: 255,
-  g: 255,
-  b: 255,
-  a: 1,
-};
+import { BLACK_COLOR, WHITE_COLOR } from "../constants/color";
+import { Color } from "../types/color.types";
 
 export const getRGBAStyle = ({ r, g, b, a }: Color) => {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -44,10 +31,10 @@ function getContrastRatio(rgb1: Color, rgb2: Color) {
 }
 
 export const getTextColorByBg = (bgColor: Color) => {
-  const contrastRatioWithBlack = getContrastRatio(bgColor, blackColor);
-  const contrastRatioWithWhite = getContrastRatio(bgColor, whiteColor);
+  const contrastRatioWithBlack = getContrastRatio(bgColor, BLACK_COLOR);
+  const contrastRatioWithWhite = getContrastRatio(bgColor, WHITE_COLOR);
 
   return contrastRatioWithBlack >= contrastRatioWithWhite
-    ? blackColor
-    : whiteColor;
+    ? BLACK_COLOR
+    : WHITE_COLOR;
 };

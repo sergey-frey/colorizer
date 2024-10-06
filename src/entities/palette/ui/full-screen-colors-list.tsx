@@ -13,7 +13,7 @@ export const FullScreenColorsList = ({
   return (
     <section
       {...props}
-      className={cn("grid", className)}
+      className={cn("grid", "rounded-medium overflow-hidden", className)}
       style={{ gridTemplateRows: `repeat(${amountOfColors}, 1fr)` }}
     />
   );

@@ -7,5 +7,7 @@ type PalettePageProps = {
 };
 
 export const PalettePage = ({ params }: PalettePageProps) => {
-  return <FullScreenPalette paletteId={params.paletteId as string} />;
+  return (
+    <FullScreenPalette paletteId={params.paletteId as string} className="p-2" />
+  );
 };
