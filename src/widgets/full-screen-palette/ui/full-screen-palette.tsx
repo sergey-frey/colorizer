@@ -52,7 +52,7 @@ export const FullScreenPalette = ({
   return (
     <>
       <WithFallback
-        fallback={<FullScreenPaletteViewFallback />}
+        fallback={<FullScreenPaletteViewFallback className={props.className} />}
         isLoading={paletteQuery.isLoading}
       >
         <FullScreenPaletteView

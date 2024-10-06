@@ -15,11 +15,22 @@ export const CompactPaletteView = ({
   return (
     <article
       {...props}
-      className={cn("grid gap-1", "p-2 rounded-lg", "bg-slate-200", className)}
+      className={cn(
+        "grid gap-1",
+        "p-2 rounded-medium",
+        "bg-slate-200",
+        className,
+      )}
       style={{ gridTemplateColumns: `repeat(${palette.colors.length}, 1fr)` }}
     >
       {palette.colors.map((color, i) => {
-        return <CompactColorView key={i} color={color} className="w-auto" />;
+        return (
+          <CompactColorView
+            key={i}
+            color={color}
+            className="w-auto rounded-small"
+          />
+        );
       })}
     </article>
   );

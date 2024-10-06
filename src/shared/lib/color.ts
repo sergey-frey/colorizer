@@ -1,5 +1,7 @@
+import { nanoid } from "nanoid";
 import { BLACK_COLOR, WHITE_COLOR } from "../constants/color";
 import { Color } from "../types/color.types";
+import { Palette } from "../types/palette.types";
 
 export const getRGBAStyle = ({ r, g, b, a }: Color) => {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -37,4 +39,11 @@ export const getTextColorByBg = (bgColor: Color) => {
   return contrastRatioWithBlack >= contrastRatioWithWhite
     ? BLACK_COLOR
     : WHITE_COLOR;
+};
+
+export const getMockPalette = (amountOfColors: number): Palette => {
+  return {
+    id: nanoid(),
+    colors: Array.from({ length: amountOfColors }, () => BLACK_COLOR),
+  };
 };
