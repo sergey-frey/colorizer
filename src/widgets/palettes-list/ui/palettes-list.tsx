@@ -7,6 +7,7 @@ import { Skeleton } from "@nextui-org/skeleton";
 import { cn } from "@nextui-org/theme";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
+import { getPaletteLink } from "../model/get-palette-link";
 
 type PalettesListProps = HTMLAttributes<HTMLUListElement>;
 
@@ -25,7 +26,7 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
               fallback={<Skeleton className="h-14 rounded-medium" />}
               isLoading={palettesQuery.isLoading}
             >
-              <Link href={`/${palette.id}`}>
+              <Link href={getPaletteLink(palette.id).toString()}>
                 <CompactPaletteView palette={palette} />
               </Link>
             </WithFallback>
