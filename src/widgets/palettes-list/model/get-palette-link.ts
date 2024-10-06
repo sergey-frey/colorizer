@@ -1,10 +1,11 @@
-import { GLOBAL_BASE, SearchParams } from "@/src/shared/constants/navigation";
+import { SearchParams } from "@/src/shared/constants/navigation";
 import { Palette } from "@/src/shared/types/palette.types";
 
-export const getPaletteLink = (paletteId: Palette["id"]): URL => {
-  const url = new globalThis.URL(`/${paletteId}`, GLOBAL_BASE);
+export const getPaletteLink = (paletteId: Palette["id"]): string => {
+  const url = `/${paletteId}`;
+  const searchParams = new URLSearchParams();
 
-  url.searchParams.set(SearchParams.from, "/");
+  searchParams.set(SearchParams.from, "/");
 
-  return url;
+  return `${url}?${searchParams.toString()}`;
 };

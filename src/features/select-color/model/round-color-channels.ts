@@ -1,4 +1,4 @@
-import { Color } from "@/src/entities/palette";
+import { Color } from "@/src/shared/types/color.types";
 
 export const roundColorChannels = (color: Color): Color => {
   return {

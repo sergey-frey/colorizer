@@ -1,8 +1,9 @@
 import { paletteApi } from "@/src/shared/api/instance";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Color, Palette } from "../../../shared/types/palette.types";
-import { useEffect } from "react";
 import { queryClient } from "@/src/shared/query-client";
+import { Color } from "@/src/shared/types/color.types";
+import { Palette } from "@/src/shared/types/palette.types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const ALL_PALETTES_KEY = "palettes";
 

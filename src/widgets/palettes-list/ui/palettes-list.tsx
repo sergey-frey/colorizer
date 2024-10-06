@@ -26,7 +26,7 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
               fallback={<Skeleton className="h-14 rounded-medium" />}
               isLoading={palettesQuery.isLoading}
             >
-              <Link href={getPaletteLink(palette.id).toString()}>
+              <Link href={getPaletteLink(palette.id)}>
                 <CompactPaletteView palette={palette} />
               </Link>
             </WithFallback>
