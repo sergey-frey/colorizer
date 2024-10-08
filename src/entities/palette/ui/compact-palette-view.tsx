@@ -1,7 +1,7 @@
+import { CompactColorView } from "@/src/entities/color";
 import { Palette } from "@/src/shared/types/palette.types";
 import { cn } from "@nextui-org/theme";
 import { HTMLAttributes } from "react";
-import { CompactColorView } from "../../color/ui/compact-color-view";
 
 type CompactPaletteProps = HTMLAttributes<HTMLElement> & {
   palette: Palette;

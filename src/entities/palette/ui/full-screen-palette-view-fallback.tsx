@@ -20,7 +20,12 @@ export const FullScreenPaletteViewFallback = ({
       colorsRender={(_, i) => {
         return <Skeleton key={i} className="w-full" />;
       }}
-      actions={<Skeleton className="w-full h-10 rounded-medium" />}
+      actions={
+        <>
+          <Skeleton className="min-w-10 h-10 rounded-medium" />
+          <Skeleton className="w-full h-10 rounded-medium" />
+        </>
+      }
     />
   );
 };

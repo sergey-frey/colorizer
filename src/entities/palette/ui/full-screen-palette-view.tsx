@@ -28,7 +28,7 @@ export const FullScreenPaletteView = ({
         {palette.colors.map(colorsRender)}
       </FullScreenColorsList>
 
-      <div className="pt-2">{actions}</div>
+      <div className="pt-2 flex gap-2">{actions}</div>
     </section>
   );
 };

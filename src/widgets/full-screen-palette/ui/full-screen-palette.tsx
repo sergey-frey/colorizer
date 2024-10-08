@@ -7,20 +7,18 @@ import {
   useAddColorToPalette,
   usePalettesByIdQuery,
 } from "@/src/entities/palette";
-import { SelectColorForm } from "@/src/features/select-color";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/modal";
 import { HTMLAttributes } from "react";
+import { addColorButtonLoadingCalculate } from "../model/loading-states";
+import { usePaletteActions } from "../model/use-palette-actions";
+import { ActionsDropdown } from "./actions-dropdown";
+import { AddColorModal } from "./add-color-modal";
+import { MixColorsModal } from "./mix-colors-modal";
+import { PaletteActions } from "../constants/actions";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -32,21 +30,18 @@ export const FullScreenPalette = ({
 }: FullScreenPaletteProps) => {
   const paletteQuery = usePalettesByIdQuery(paletteId);
   const addColorMutation = useAddColorToPalette(paletteId);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const isLoadingAddColorButton =
-    paletteQuery.isPending ||
-    paletteQuery.isRefetching ||
-    addColorMutation.isPending;
+  const { addColorModalState, mixColorsModalState, getActionHandler } =
+    usePaletteActions();
 
-  const handleAddColorClick = () => {
-    onOpen();
-  };
+  const isLoadingAddColorButton = addColorButtonLoadingCalculate(
+    paletteQuery,
+    addColorMutation,
+  );
 
-  const handleAddedColorSelect = (cb: () => void) => (color: Color) => {
+  const handleAddedColorSelect = (color: Color) => {
     const currentColors = paletteQuery.data?.colors ?? [];
     addColorMutation.mutateAsync(currentColors.concat([color]));
-    cb();
   };
 
   return (
@@ -62,38 +57,41 @@ export const FullScreenPalette = ({
             return <ColorView key={i} color={color} />;
           }}
           actions={
-            <Button
-              color="primary"
-              className="w-full"
-              endContent={<PlusIcon className="w-5" />}
-              isLoading={isLoadingAddColorButton}
-              onClick={handleAddColorClick}
-            >
-              Add color
-            </Button>
+            <>
+              <ActionsDropdown
+                isIconOnly
+                onAction={getActionHandler(PaletteActions.mix)}
+              >
+                <EllipsisVerticalIcon className="w-5" />
+              </ActionsDropdown>
+
+              <Button
+                color="primary"
+                className="w-full"
+                endContent={<PlusIcon className="w-5" />}
+                isLoading={isLoadingAddColorButton}
+                onClick={getActionHandler(PaletteActions.add)}
+              >
+                Add color
+              </Button>
+            </>
           }
         />
       </WithFallback>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Add Color</ModalHeader>
-              <ModalBody>
-                <SelectColorForm
-                  onSubmit={handleAddedColorSelect(onClose)}
-                  submitButton={
-                    <Button type="submit" color="primary" className="mt-2">
-                      Apply
-                    </Button>
-                  }
-                />
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <AddColorModal
+        isOpen={addColorModalState.isOpen}
+        onOpenChange={addColorModalState.onOpenChange}
+        onSelectColor={handleAddedColorSelect}
+      />
+
+      {/* Такой же обработчик т.к смешанный цвет тоже добавляется в палитру */}
+      <MixColorsModal
+        isOpen={mixColorsModalState.isOpen}
+        onOpenChange={mixColorsModalState.onOpenChange}
+        onApplyMixColors={handleAddedColorSelect}
+        colors={paletteQuery.data?.colors ?? []}
+      />
     </>
   );
 };
