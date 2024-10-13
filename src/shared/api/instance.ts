@@ -12,3 +12,16 @@ export const paletteApi = ky.create({
     ],
   },
 });
+
+export const aiApi = ky.create({
+  prefixUrl: "http://localhost:3000/ai",
+  hooks: {
+    beforeRequest: [
+      (req) => {
+        return new Promise((resolve) => setTimeout(resolve, 500)).then(
+          () => req,
+        );
+      },
+    ],
+  },
+});

@@ -1,4 +1,5 @@
-import { paletteApi } from "@/src/shared/api/instance";
+import { GetAIPaletteDto } from "@/src/shared/api/dto";
+import { aiApi, paletteApi } from "@/src/shared/api/instance";
 import { queryClient } from "@/src/shared/query-client";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
@@ -34,7 +35,7 @@ export const useAddColorToPalette = (paletteId: Palette["id"]) => {
     mutationFn: (colors: Color[]) => {
       return paletteApi
         .patch(`${paletteId}`, {
-          body: JSON.stringify({ colors }),
+          json: { colors },
         })
         .json();
     },
@@ -47,6 +48,47 @@ export const useAddColorToPalette = (paletteId: Palette["id"]) => {
       });
     }
   }, [isSuccess, paletteId]);
+
+  return {
+    isSuccess,
+    ...otherMutationFields,
+  };
+};
+
+export const useAIPaletteMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      amountOfColors,
+    }: GetAIPaletteDto): Promise<{ palette: Palette }> => {
+      return aiApi
+        .post("palette", {
+          json: {
+            amountOfColors,
+          },
+        })
+        .json();
+    },
+  });
+};
+
+export const useAddPaletteMutation = () => {
+  const { isSuccess, ...otherMutationFields } = useMutation({
+    mutationFn: (palette: Palette) => {
+      return paletteApi
+        .post("", {
+          json: palette,
+        })
+        .json();
+    },
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({
+        queryKey: [ALL_PALETTES_KEY],
+      });
+    }
+  }, [isSuccess]);
 
   return {
     isSuccess,

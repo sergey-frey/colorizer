@@ -47,3 +47,18 @@ export const getMockPalette = (amountOfColors: number): Palette => {
     colors: Array.from({ length: amountOfColors }, () => BLACK_COLOR),
   };
 };
+
+export const formatAIPalette = (aiPalette: string): Palette => {
+  return {
+    id: nanoid(),
+    colors: aiPalette
+      .split(",")
+      .map((color) => color.trim())
+      .map((color) => ({
+        r: Number.parseInt(color.slice(1, 3), 16),
+        g: Number.parseInt(color.slice(3, 5), 16),
+        b: Number.parseInt(color.slice(5, 7), 16),
+        a: 1,
+      })),
+  };
+};

@@ -1,13 +1,14 @@
 "use client";
 
 import { CompactPaletteView, usePalettesQuery } from "@/src/entities/palette";
+import { SearchParams } from "@/src/shared/constants/navigation";
 import { getMockPalette } from "@/src/shared/lib/color";
+import { getPaletteLink } from "@/src/shared/lib/navigate";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
 import { Skeleton } from "@nextui-org/skeleton";
 import { cn } from "@nextui-org/theme";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
-import { getPaletteLink } from "../model/get-palette-link";
 
 type PalettesListProps = HTMLAttributes<HTMLUListElement>;
 
@@ -26,7 +27,11 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
               fallback={<Skeleton className="h-14 rounded-medium" />}
               isLoading={palettesQuery.isLoading}
             >
-              <Link href={getPaletteLink(palette.id)}>
+              <Link
+                href={getPaletteLink(palette.id, {
+                  [SearchParams.from]: "/",
+                })}
+              >
                 <CompactPaletteView palette={palette} />
               </Link>
             </WithFallback>
