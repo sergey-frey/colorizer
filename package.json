@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npx json-server ./db/db.json --port=4000\" \"next dev\"",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,10 +19,11 @@
     "@nextui-org/skeleton": "^2.0.32",
     "@nextui-org/system": "^2.2.6",
     "@nextui-org/theme": "^2.2.11",
+    "@supabase/supabase-js": "^2.45.6",
     "@tanstack/react-query": "^5.56.2",
     "clsx": "^2.1.1",
+    "debounce": "^2.2.0",
     "framer-motion": "^11.9.0",
-    "json-server": "^1.0.0-beta.3",
     "ky": "^1.7.2",
     "nanoid": "^5.0.7",
     "next": "14.2.13",

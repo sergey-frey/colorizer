@@ -48,9 +48,8 @@ export const getMockPalette = (amountOfColors: number): Palette => {
   };
 };
 
-export const formatAIPalette = (aiPalette: string): Palette => {
+export const formatAIPalette = (aiPalette: string): Omit<Palette, "id"> => {
   return {
-    id: nanoid(),
     colors: aiPalette
       .split(",")
       .map((color) => color.trim())

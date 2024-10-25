@@ -4,7 +4,6 @@ import { useAddPaletteMutation } from "@/src/entities/palette";
 import { SearchParams } from "@/src/shared/constants/navigation";
 import { getPaletteLink } from "@/src/shared/lib/navigate";
 import { Button, ButtonProps } from "@nextui-org/button";
-import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 
@@ -20,10 +19,8 @@ export const AddPaletteButton = ({
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
 
-    const paletteId = nanoid();
-
-    addPaletteMutation.mutateAsync({ id: paletteId, colors: [] }).then(() => {
-      router.push(getPaletteLink(paletteId, { [SearchParams.from]: "/" }));
+    addPaletteMutation.mutateAsync({ colors: [] }).then((newPalette) => {
+      router.push(getPaletteLink(newPalette.id, { [SearchParams.from]: "/" }));
     });
   };
 

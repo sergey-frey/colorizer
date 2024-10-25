@@ -1,5 +1,5 @@
 import { aiInstance } from "@/src/shared/api/ai-instance";
-import { GetAIPaletteDto } from "@/src/shared/api/dto";
+import { GenerateAIPaletteDto, GetAIPaletteDto } from "@/src/shared/api/dto";
 import { formatAIPalette } from "@/src/shared/lib/color";
 import { ChatCompletionMessageParam } from "openai/src/resources/chat/completions.js";
 
@@ -16,7 +16,9 @@ class AIPaletteService {
     ],
   };
 
-  async getPalette({ amountOfColors }: GetAIPaletteDto) {
+  async getPalette({
+    amountOfColors,
+  }: GetAIPaletteDto): Promise<GenerateAIPaletteDto | null> {
     const completion = await this._ai.chat.completions.create({
       model: this._model,
       messages: [
@@ -35,7 +37,7 @@ class AIPaletteService {
     }
 
     return {
-      palette: formatAIPalette(response),
+      data: formatAIPalette(response),
     };
   }
 }

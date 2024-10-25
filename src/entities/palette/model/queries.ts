@@ -1,5 +1,10 @@
-import { GetAIPaletteDto } from "@/src/shared/api/dto";
-import { aiApi, paletteApi } from "@/src/shared/api/instance";
+import {
+  AddPaletteDto,
+  GenerateAIPaletteDto,
+  GetAIPaletteDto,
+} from "@/src/shared/api/dto";
+import { aiApi } from "@/src/shared/api/instance";
+import { paletteRepo } from "@/src/shared/api/repos/palette.repo";
 import { queryClient } from "@/src/shared/query-client";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
@@ -14,18 +19,14 @@ const getPaletteWithIdKey = (id?: Palette["id"]) => {
 
 export const usePalettesQuery = () => {
   return useQuery<Palette[]>({
-    queryFn: () => {
-      return paletteApi.get("").json();
-    },
+    queryFn: () => paletteRepo.getAllPalettes(),
     queryKey: [ALL_PALETTES_KEY],
   });
 };
 
 export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
   return useQuery<Palette>({
-    queryFn: () => {
-      return paletteApi.get(`${paletteId}`).json();
-    },
+    queryFn: () => paletteRepo.getPaletteById(paletteId),
     queryKey: [getPaletteWithIdKey(paletteId)],
   });
 };
@@ -33,11 +34,7 @@ export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
 export const useAddColorToPalette = (paletteId: Palette["id"]) => {
   const { isSuccess, ...otherMutationFields } = useMutation({
     mutationFn: (colors: Color[]) => {
-      return paletteApi
-        .patch(`${paletteId}`, {
-          json: { colors },
-        })
-        .json();
+      return paletteRepo.addColorToPalette(paletteId, colors);
     },
   });
 
@@ -59,7 +56,7 @@ export const useAIPaletteMutation = () => {
   return useMutation({
     mutationFn: ({
       amountOfColors,
-    }: GetAIPaletteDto): Promise<{ palette: Palette }> => {
+    }: GetAIPaletteDto): Promise<GenerateAIPaletteDto> => {
       return aiApi
         .post("palette", {
           json: {
@@ -73,13 +70,7 @@ export const useAIPaletteMutation = () => {
 
 export const useAddPaletteMutation = () => {
   const { isSuccess, ...otherMutationFields } = useMutation({
-    mutationFn: (palette: Palette) => {
-      return paletteApi
-        .put("", {
-          json: palette,
-        })
-        .json();
-    },
+    mutationFn: (dto: AddPaletteDto) => paletteRepo.addPalette(dto),
   });
 
   useEffect(() => {

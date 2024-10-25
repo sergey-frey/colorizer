@@ -7,11 +7,11 @@ export async function POST(request: Request) {
 
   const { amountOfColors } = body;
 
-  const palette = await aiPaletteService.getPalette({ amountOfColors });
+  const data = await aiPaletteService.getPalette({ amountOfColors });
 
-  if (!palette) {
+  if (!data) {
     return NextResponse.json({ error: "No palette found" }, { status: 500 });
   }
 
-  return NextResponse.json(palette);
+  return NextResponse.json(data);
 }

@@ -32,14 +32,18 @@ export const Header = ({ className, ...props }: HeaderProps) => {
   const handleSubmitAmountOfColors = async (amount: number) => {
     console.log(amount);
 
-    const { palette } = await addAIPaletteMutation.mutateAsync({
+    const { data } = await addAIPaletteMutation.mutateAsync({
       amountOfColors: amount,
     });
 
+    console.log(data);
+
     addPaletteMutation
-      .mutateAsync(palette)
-      .then(() => {
-        router.push(getPaletteLink(palette.id, { [SearchParams.from]: "/" }));
+      .mutateAsync(data)
+      .then((newPalette) => {
+        router.push(
+          getPaletteLink(newPalette.id, { [SearchParams.from]: "/" }),
+        );
       })
       .finally(() => {
         addAIPaletteModalState.onClose();
