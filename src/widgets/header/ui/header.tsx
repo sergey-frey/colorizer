@@ -96,24 +96,20 @@ export const Header = ({ className, ...props }: HeaderProps) => {
         </div>
       </header>
 
-      <Suspense>
-        <DependOnPath
-          as={AddAiPaletteModal}
-          deps={{ path: "/" }}
-          isOpen={addAIPaletteModalState.isOpen}
-          onOpenChange={addAIPaletteModalState.onOpenChange}
-          onSubmit={handleSubmitAmountOfColors}
-          submitButton={
-            <Button
-              type="submit"
-              isDisabled={addAIPaletteMutation.isPending}
-              isLoading={addAIPaletteMutation.isPending}
-            >
-              Enter
-            </Button>
-          }
-        />
-      </Suspense>
+      <AddAiPaletteModal
+        isOpen={addAIPaletteModalState.isOpen}
+        onOpenChange={addAIPaletteModalState.onOpenChange}
+        onSubmit={handleSubmitAmountOfColors}
+        submitButton={
+          <Button
+            type="submit"
+            isDisabled={addAIPaletteMutation.isPending}
+            isLoading={addAIPaletteMutation.isPending}
+          >
+            Enter
+          </Button>
+        }
+      />
     </>
   );
 };

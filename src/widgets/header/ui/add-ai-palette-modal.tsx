@@ -32,7 +32,7 @@ export const AddAiPaletteModal = ({
   };
 
   return (
-    <Modal {...props}>
+    <Modal as={"dialog"} {...props}>
       <ModalContent>
         <>
           <ModalHeader>Add AI Palette</ModalHeader>

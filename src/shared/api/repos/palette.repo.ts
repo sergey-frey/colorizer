@@ -4,11 +4,12 @@ import { Database } from "@/src/shared/types/db.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { AddPaletteDto } from "../dto";
+import { GenericSchema } from "@supabase/supabase-js/dist/module/lib/types";
 
 class PaletteRepo {
-  private _instance: SupabaseClient<Database, "public", any>;
+  private _instance: SupabaseClient<Database, "public", GenericSchema>;
 
-  constructor(instance: SupabaseClient<Database, "public", any>) {
+  constructor(instance: SupabaseClient<Database, "public", GenericSchema>) {
     this._instance = instance;
   }
 
