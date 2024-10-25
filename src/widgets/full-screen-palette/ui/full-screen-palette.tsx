@@ -19,6 +19,7 @@ import { ActionsDropdown } from "./actions-dropdown";
 import { AddColorModal } from "./add-color-modal";
 import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
 import { MixColorsModal } from "./mix-colors-modal";
+import { notFound } from "next/navigation";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -43,6 +44,10 @@ export const FullScreenPalette = ({
     const currentColors = paletteQuery.data?.colors ?? [];
     addColorMutation.mutateAsync(currentColors.concat([color]));
   };
+
+  if (paletteQuery.isError) {
+    notFound();
+  }
 
   return (
     <>
