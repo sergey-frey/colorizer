@@ -26,6 +26,7 @@ export const ActionsDropdown = ({
       <DropdownMenu onAction={onAction as (key: Key) => void}>
         <DropdownItem
           startContent={<AdjustmentsHorizontalIcon className="w-5" />}
+          key={PaletteActions.mix}
         >
           Mix colors
         </DropdownItem>

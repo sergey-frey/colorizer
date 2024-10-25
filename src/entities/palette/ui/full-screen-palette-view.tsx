@@ -24,7 +24,7 @@ export const FullScreenPaletteView = ({
       {...props}
       className={cn("h-full", "grid grid-rows-[1fr_auto]", className)}
     >
-      <FullScreenColorsList amountOfColors={palette.colors.length}>
+      <FullScreenColorsList colors={palette.colors}>
         {palette.colors.map(colorsRender)}
       </FullScreenColorsList>
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { ColorView } from "@/src/entities/color";
 import {
   FullScreenPaletteView,
   FullScreenPaletteViewFallback,
@@ -13,12 +12,13 @@ import { WithFallback } from "@/src/shared/ui/with-fallback";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { HTMLAttributes } from "react";
+import { PaletteActions } from "../constants/actions";
 import { addColorButtonLoadingCalculate } from "../model/loading-states";
 import { usePaletteActions } from "../model/use-palette-actions";
 import { ActionsDropdown } from "./actions-dropdown";
 import { AddColorModal } from "./add-color-modal";
+import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
 import { MixColorsModal } from "./mix-colors-modal";
-import { PaletteActions } from "../constants/actions";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -54,13 +54,13 @@ export const FullScreenPalette = ({
           {...props}
           palette={paletteQuery.data!}
           colorsRender={(color, i) => {
-            return <ColorView key={i} color={color} />;
+            return <FullScreenPaletteColorView key={i} color={color} />;
           }}
           actions={
             <>
               <ActionsDropdown
                 isIconOnly
-                onAction={getActionHandler(PaletteActions.mix)}
+                onAction={(actionKey) => getActionHandler(actionKey)()}
               >
                 <EllipsisVerticalIcon className="w-5" />
               </ActionsDropdown>

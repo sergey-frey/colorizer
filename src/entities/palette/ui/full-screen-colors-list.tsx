@@ -1,12 +1,13 @@
+import { Color } from "@/src/shared/types/color.types";
 import { cn } from "@nextui-org/theme";
 import { HTMLAttributes } from "react";
 
 type FullScreenColorsListProps = HTMLAttributes<HTMLElement> & {
-  amountOfColors: number;
+  colors: Color[];
 };
 
 export const FullScreenColorsList = ({
-  amountOfColors,
+  colors,
   className,
   ...props
 }: FullScreenColorsListProps) => {
@@ -14,7 +15,7 @@ export const FullScreenColorsList = ({
     <section
       {...props}
       className={cn("grid", "rounded-medium overflow-hidden", className)}
-      style={{ gridTemplateRows: `repeat(${amountOfColors}, 1fr)` }}
+      style={{ gridTemplateRows: `repeat(${colors.length}, 1fr)` }}
     />
   );
 };

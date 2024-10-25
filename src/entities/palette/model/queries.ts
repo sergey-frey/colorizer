@@ -75,7 +75,7 @@ export const useAddPaletteMutation = () => {
   const { isSuccess, ...otherMutationFields } = useMutation({
     mutationFn: (palette: Palette) => {
       return paletteApi
-        .post("", {
+        .put("", {
           json: palette,
         })
         .json();
