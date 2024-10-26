@@ -7,4 +7,4 @@ export type GetAIPaletteDto = {
 export type AddPaletteDto = Omit<Palette, "id" | "title"> & {
   title?: string;
 };
-export type GenerateAIPaletteDto = { data: Omit<Palette, "id"> };
+export type GenerateAIPaletteDto = { data: Pick<Palette, "colors"> };

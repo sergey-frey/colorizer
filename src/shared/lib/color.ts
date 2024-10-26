@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import { BLACK_COLOR, WHITE_COLOR } from "../constants/color";
 import { Color } from "../types/color.types";
 import { Palette } from "../types/palette.types";
+import { AddPaletteDto } from "../api/dto";
 
 export const getRGBAStyle = ({ r, g, b, a }: Color) => {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -44,11 +45,12 @@ export const getTextColorByBg = (bgColor: Color) => {
 export const getMockPalette = (amountOfColors: number): Palette => {
   return {
     id: nanoid(),
+    title: "Mock palette",
     colors: Array.from({ length: amountOfColors }, () => BLACK_COLOR),
   };
 };
 
-export const formatAIPalette = (aiPalette: string): Omit<Palette, "id"> => {
+export const formatAIPalette = (aiPalette: string): AddPaletteDto => {
   return {
     colors: aiPalette
       .split(",")
