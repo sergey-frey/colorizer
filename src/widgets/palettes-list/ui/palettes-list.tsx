@@ -34,7 +34,7 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
           <li key={palette.id}>
             <WithFallback
               fallback={<Skeleton className="h-14 rounded-medium" />}
-              isLoading={palettesQuery.isLoading}
+              isShowFallback={palettesQuery.isLoading}
             >
               <Link
                 href={getPaletteLink(palette.id, {

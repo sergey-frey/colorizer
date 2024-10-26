@@ -70,7 +70,7 @@ export const FullScreenPalette = ({
     <>
       <WithFallback
         fallback={<FullScreenPaletteViewFallback className={props.className} />}
-        isLoading={paletteQuery.isLoading}
+        isShowFallback={paletteQuery.isLoading}
       >
         <FullScreenPaletteView
           {...props}

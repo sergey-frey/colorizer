@@ -2,16 +2,16 @@ import { ReactNode } from "react";
 
 type WithFallBackProps = {
   fallback: ReactNode;
-  isLoading: boolean;
+  isShowFallback: boolean;
   children: ReactNode;
 };
 
 export const WithFallback = ({
   fallback,
-  isLoading,
+  isShowFallback,
   children,
 }: WithFallBackProps) => {
-  if (isLoading) return fallback;
+  if (isShowFallback) return fallback;
 
   return children;
 };
