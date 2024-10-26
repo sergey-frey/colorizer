@@ -86,3 +86,22 @@ export const useAddPaletteMutation = () => {
     ...otherMutationFields,
   };
 };
+
+export const useDeletePaletteMutation = () => {
+  const { isSuccess, ...otherMutationFields } = useMutation({
+    mutationFn: (id: Palette["id"]) => paletteRepo.deletePalette(id),
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({
+        queryKey: [ALL_PALETTES_KEY],
+      });
+    }
+  }, [isSuccess]);
+
+  return {
+    isSuccess,
+    ...otherMutationFields,
+  };
+};

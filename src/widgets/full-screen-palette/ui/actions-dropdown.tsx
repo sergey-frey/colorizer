@@ -1,4 +1,7 @@
-import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import {
+  AdjustmentsHorizontalIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { Button, ButtonProps } from "@nextui-org/button";
 import {
   Dropdown,
@@ -29,6 +32,12 @@ export const ActionsDropdown = ({
           key={PaletteActions.mix}
         >
           Mix colors
+        </DropdownItem>
+        <DropdownItem
+          startContent={<TrashIcon className="w-5" />}
+          key={PaletteActions.delete}
+        >
+          Delete palette
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

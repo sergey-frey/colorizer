@@ -71,6 +71,16 @@ class PaletteRepo {
 
     return data[0];
   }
+
+  public async deletePalette(paletteId: Palette["id"]) {
+    const { error } = await this._query()
+      .delete()
+      .eq<Palette["id"]>("id", paletteId);
+
+    if (error) {
+      throw new Error("SupabaseError: 'deletePalette' finished with error");
+    }
+  }
 }
 
 export const paletteRepo = new PaletteRepo(supabase);

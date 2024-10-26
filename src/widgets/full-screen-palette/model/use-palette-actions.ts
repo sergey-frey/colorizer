@@ -4,6 +4,7 @@ import { PaletteActions } from "../constants/actions";
 export const usePaletteActions = () => {
   const addColorModalState = useDisclosure();
   const mixColorsModalState = useDisclosure();
+  const deletePaletteConfirmState = useDisclosure();
 
   const addColorClick = () => {
     addColorModalState.onOpen();
@@ -11,6 +12,10 @@ export const usePaletteActions = () => {
 
   const mixColorsClick = () => {
     mixColorsModalState.onOpen();
+  };
+
+  const deletePaletteClick = () => {
+    deletePaletteConfirmState.onOpen();
   };
 
   const getActionHandler = (action: PaletteActions) => {
@@ -21,12 +26,16 @@ export const usePaletteActions = () => {
       case PaletteActions.mix: {
         return mixColorsClick;
       }
+      case PaletteActions.delete: {
+        return deletePaletteClick;
+      }
     }
   };
 
   return {
     addColorModalState,
     mixColorsModalState,
+    deletePaletteConfirmState,
     getActionHandler,
     actionsHandlers: {
       addColorClick,

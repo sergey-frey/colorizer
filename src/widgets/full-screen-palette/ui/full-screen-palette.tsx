@@ -4,11 +4,14 @@ import {
   FullScreenPaletteView,
   FullScreenPaletteViewFallback,
   useAddColorToPalette,
+  useDeletePaletteMutation,
   usePalettesByIdQuery,
 } from "@/src/entities/palette";
+import { Confirm } from "@/src/features/confirm";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
+import { useBackNavigate } from "@/src/shared/utils/use-back-navigate";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { notFound } from "next/navigation";
@@ -31,9 +34,16 @@ export const FullScreenPalette = ({
 }: FullScreenPaletteProps) => {
   const paletteQuery = usePalettesByIdQuery(paletteId);
   const addColorMutation = useAddColorToPalette(paletteId);
+  const deletePaletteMutation = useDeletePaletteMutation();
 
-  const { addColorModalState, mixColorsModalState, getActionHandler } =
-    usePaletteActions();
+  const { navigateBack } = useBackNavigate();
+
+  const {
+    addColorModalState,
+    mixColorsModalState,
+    getActionHandler,
+    deletePaletteConfirmState,
+  } = usePaletteActions();
 
   const isLoadingAddColorButton = addColorButtonLoadingCalculate(
     paletteQuery,
@@ -43,6 +53,13 @@ export const FullScreenPalette = ({
   const handleAddedColorSelect = (color: Color) => {
     const currentColors = paletteQuery.data?.colors ?? [];
     addColorMutation.mutateAsync(currentColors.concat([color]));
+  };
+
+  const handleDeletePaletteConfirm = (onClose: () => void) => {
+    deletePaletteMutation
+      .mutateAsync(paletteId)
+      .finally(onClose)
+      .then(navigateBack);
   };
 
   if (paletteQuery.isError) {
@@ -90,12 +107,20 @@ export const FullScreenPalette = ({
         onSelectColor={handleAddedColorSelect}
       />
 
-      {/* Такой же обработчик т.к смешанный цвет тоже добавляется в палитру */}
+      {/* Обработчик добавления цвета т.к смешанный цвет тоже добавляется в палитру */}
       <MixColorsModal
         isOpen={mixColorsModalState.isOpen}
         onOpenChange={mixColorsModalState.onOpenChange}
         onApplyMixColors={handleAddedColorSelect}
         colors={paletteQuery.data?.colors ?? []}
+      />
+
+      <Confirm
+        headerContent={"Delete confirm"}
+        bodyContent={"Are you sure you want to delete palette?"}
+        isOpen={deletePaletteConfirmState.isOpen}
+        onOpenChange={deletePaletteConfirmState.onOpenChange}
+        onConfirm={handleDeletePaletteConfirm}
       />
     </>
   );

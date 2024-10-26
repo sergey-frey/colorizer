@@ -1,14 +1,12 @@
 "use client";
 
-import { SearchParams } from "@/src/shared/constants/navigation";
+import { useBackNavigate } from "@/src/shared/utils/use-back-navigate";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 export const BackLink = () => {
-  const searchParams = useSearchParams();
-  const fromUrl = searchParams?.get(SearchParams.from);
+  const { fromUrl } = useBackNavigate();
 
   if (!fromUrl) return null;
 
