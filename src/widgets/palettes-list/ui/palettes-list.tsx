@@ -19,7 +19,16 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
     : palettesQuery.data!;
 
   return (
-    <ul {...props} className={cn("grid gap-2", className)}>
+    <ul
+      {...props}
+      className={cn(
+        "container mx-auto",
+        "grid gap-2",
+        "md:grid-cols-2",
+        "lg:grid-cols-3",
+        className,
+      )}
+    >
       {palettes.map((palette) => {
         return (
           <li key={palette.id}>

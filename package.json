@@ -31,6 +31,7 @@
     "react": "^18",
     "react-color-palette": "^7.3.0",
     "react-dom": "^18",
+    "react-responsive": "^10.0.0",
     "tailwind-merge": "^2.5.2",
     "use-long-press": "^3.2.0"
   },

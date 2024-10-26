@@ -30,6 +30,7 @@ body {
   grid-area: footer;
 }
 
+/* --- Styles for React Color Picker START --- */
 body .rcp-root {
   --rcp-background-color: transparent;
   --rcp-field-input-color: #000000;
@@ -40,3 +41,4 @@ body .rcp-root {
 body .rcp-saturation {
   border-radius: 10px;
 }
+/* --- END --- */

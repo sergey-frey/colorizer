@@ -13,12 +13,24 @@ export const ColorCodePreview = ({
   ...props
 }: ColorCodePreviewProps) => {
   return (
-    <span
-      {...props}
-      className={cn("text-xs", className)}
-      style={{ color: getRGBAStyle(getTextColorByBg(color)) }}
-    >
-      {getRGBAStyle(color)}
-    </span>
+    <>
+      <span
+        {...props}
+        className={cn("text-xs", "md:hidden", className)}
+        style={{ color: getRGBAStyle(getTextColorByBg(color)) }}
+      >
+        {getRGBAStyle(color)}
+      </span>
+
+      <ul
+        className={cn("hidden", "md:grid")}
+        style={{ color: getRGBAStyle(getTextColorByBg(color)) }}
+      >
+        <li>R: {color.r}</li>
+        <li>G: {color.g}</li>
+        <li>B: {color.b}</li>
+        <li>A: {color.a}</li>
+      </ul>
+    </>
   );
 };

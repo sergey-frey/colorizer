@@ -11,6 +11,7 @@ import { Palette } from "@/src/shared/types/palette.types";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
 import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
+import { notFound } from "next/navigation";
 import { HTMLAttributes } from "react";
 import { PaletteActions } from "../constants/actions";
 import { addColorButtonLoadingCalculate } from "../model/loading-states";
@@ -19,7 +20,6 @@ import { ActionsDropdown } from "./actions-dropdown";
 import { AddColorModal } from "./add-color-modal";
 import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
 import { MixColorsModal } from "./mix-colors-modal";
-import { notFound } from "next/navigation";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -72,7 +72,7 @@ export const FullScreenPalette = ({
 
               <Button
                 color="primary"
-                className="w-full"
+                className="w-full sm:w-fit"
                 endContent={<PlusIcon className="w-5" />}
                 isLoading={isLoadingAddColorButton}
                 onClick={getActionHandler(PaletteActions.add)}

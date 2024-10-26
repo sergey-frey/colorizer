@@ -28,7 +28,7 @@ export const FullScreenPaletteColorView = ({
   return (
     <ColorView
       color={color}
-      className="h-full"
+      className="grow"
       actions={
         <>
           <Button

@@ -1,6 +1,8 @@
+import { Screens } from "@/src/shared/constants/responsive";
 import { Color } from "@/src/shared/types/color.types";
 import { cn } from "@nextui-org/theme";
-import { HTMLAttributes } from "react";
+import { CSSProperties, HTMLAttributes } from "react";
+import { useMediaQuery } from "react-responsive";
 
 type FullScreenColorsListProps = HTMLAttributes<HTMLElement> & {
   colors: Color[];
@@ -11,11 +13,19 @@ export const FullScreenColorsList = ({
   className,
   ...props
 }: FullScreenColorsListProps) => {
+  const isMd = useMediaQuery({ minWidth: Screens.md });
+
+  const gridTemplateStyleKey: keyof CSSProperties = isMd
+    ? "gridTemplateColumns"
+    : "gridTemplateRows";
+
   return (
     <section
       {...props}
       className={cn("grid", "rounded-medium overflow-hidden", className)}
-      style={{ gridTemplateRows: `repeat(${colors.length}, 1fr)` }}
+      style={{
+        [gridTemplateStyleKey]: `repeat(${colors.length}, 1fr)`,
+      }}
     />
   );
 };

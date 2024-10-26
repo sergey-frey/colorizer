@@ -13,8 +13,16 @@ export const ColorViewLayout = ({
   ...props
 }: ColorViewLayoutProps) => {
   return (
-    <article {...props} className={cn("px-3 py-2 relative", className)}>
-      <div className="flex items-center justify-between">
+    <article
+      {...props}
+      className={cn("px-3 py-2 relative", "md:p-5", className)}
+    >
+      <div
+        className={cn(
+          "flex items-center justify-between",
+          "md:flex-col md:h-full",
+        )}
+      >
         {colorCodePreview}
         {controlsList}
       </div>
