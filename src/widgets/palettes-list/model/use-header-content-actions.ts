@@ -1,6 +1,6 @@
 import { useDisclosure } from "@nextui-org/modal";
 
-export const useHeaderActions = () => {
+export const useHeaderContentActions = () => {
   const addAIPaletteModalState = useDisclosure();
 
   const addAIPaletteClick = () => {

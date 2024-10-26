@@ -12,7 +12,11 @@ import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
 import { useBackNavigate } from "@/src/shared/utils/use-back-navigate";
-import { EllipsisVerticalIcon, PlusIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  EllipsisVerticalIcon,
+  PlusIcon,
+} from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { notFound } from "next/navigation";
 import { HTMLAttributes } from "react";
@@ -23,6 +27,8 @@ import { ActionsDropdown } from "./actions-dropdown";
 import { AddColorModal } from "./add-color-modal";
 import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
 import { MixColorsModal } from "./mix-colors-modal";
+import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
+import Link from "next/link";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -36,7 +42,7 @@ export const FullScreenPalette = ({
   const addColorMutation = useAddColorToPalette(paletteId);
   const deletePaletteMutation = useDeletePaletteMutation();
 
-  const { navigateBack } = useBackNavigate();
+  const { fromUrl, navigateBack } = useBackNavigate();
 
   const {
     addColorModalState,
@@ -68,6 +74,18 @@ export const FullScreenPalette = ({
 
   return (
     <>
+      <DynamicHeaderContent>
+        <Button
+          as={Link}
+          href={fromUrl ?? "/"}
+          size="sm"
+          variant="light"
+          isIconOnly
+        >
+          <ArrowLeftIcon className="w-5" />
+        </Button>
+      </DynamicHeaderContent>
+
       <WithFallback
         fallback={<FullScreenPaletteViewFallback className={props.className} />}
         isShowFallback={paletteQuery.isLoading}
