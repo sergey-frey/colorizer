@@ -36,6 +36,7 @@ export const ActionsDropdown = ({
         <DropdownItem
           startContent={<TrashIcon className="w-5" />}
           key={PaletteActions.delete}
+          color="danger"
         >
           Delete palette
         </DropdownItem>
