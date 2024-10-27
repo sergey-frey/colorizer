@@ -6,7 +6,6 @@ import {
 import { aiApi } from "@/src/shared/api/instance";
 import { paletteRepo } from "@/src/shared/api/repos/palette.repo";
 import { queryClient } from "@/src/shared/query-client";
-import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -31,10 +30,10 @@ export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
   });
 };
 
-export const useAddColorToPalette = (paletteId: Palette["id"]) => {
+export const useAddColorToPalette = (paletteId?: Palette["id"]) => {
   const { isSuccess, ...otherMutationFields } = useMutation({
-    mutationFn: (colors: Color[]) => {
-      return paletteRepo.addColorToPalette(paletteId, colors);
+    mutationFn: (palette: Palette) => {
+      return paletteRepo.updatePalette(palette);
     },
   });
 
@@ -105,3 +104,5 @@ export const useDeletePaletteMutation = () => {
     ...otherMutationFields,
   };
 };
+
+export const useUpdatePaletteMutation = () => {};

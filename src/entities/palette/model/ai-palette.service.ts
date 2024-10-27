@@ -19,26 +19,30 @@ class AIPaletteService {
   async getPalette({
     amountOfColors,
   }: GetAIPaletteDto): Promise<GenerateAIPaletteDto | null> {
-    const completion = await this._ai.chat.completions.create({
-      model: this._model,
-      messages: [
-        ...this._contexts["getPalette"],
-        {
-          role: "user",
-          content: `Give me a beautiful color palette with ${amountOfColors} colors. You should return only ${amountOfColors} hex colors separated by commas.`,
-        },
-      ],
-    });
+    try {
+      const completion = await this._ai.chat.completions.create({
+        model: this._model,
+        messages: [
+          ...this._contexts["getPalette"],
+          {
+            role: "user",
+            content: `Give me a beautiful color palette with ${amountOfColors} colors. You should return only ${amountOfColors} hex colors separated by commas.`,
+          },
+        ],
+      });
 
-    const response = completion.choices[0].message?.content;
+      const response = completion.choices[0].message?.content;
 
-    if (!response) {
-      return null;
+      if (!response) {
+        return null;
+      }
+
+      return {
+        data: formatAIPalette(response),
+      };
+    } catch {
+      throw new Error("Failed to get palette from AI");
     }
-
-    return {
-      data: formatAIPalette(response),
-    };
   }
 }
 

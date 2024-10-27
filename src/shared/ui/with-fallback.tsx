@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-type WithFallBackProps = {
+export type WithFallBackProps = {
   fallback: ReactNode;
   isShowFallback: boolean;
   children: ReactNode;

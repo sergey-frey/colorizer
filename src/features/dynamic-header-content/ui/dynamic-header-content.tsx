@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useHeaderContent } from "../model/use-header-content";
 import { headerSetContentSelector } from "../model/header-content.selectors";
 
@@ -11,7 +11,13 @@ export const DynamicHeaderContent = ({
 }: DynamicHeaderContentProps) => {
   const setContent = useHeaderContent(headerSetContentSelector);
 
-  setContent(children);
+  /* 
+    Контент в HEADER будет меняться на каждый рендер children
+    Так же, как если бы это был прямой наследник компонента 
+  */
+  useEffect(() => {
+    setContent(children);
+  }, [children, setContent]);
 
   return null;
 };

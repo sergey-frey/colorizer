@@ -8,8 +8,10 @@ import {
   usePalettesByIdQuery,
 } from "@/src/entities/palette";
 import { Confirm } from "@/src/features/confirm";
+import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
+import { ToggledInput } from "@/src/shared/ui/toggled-input";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
 import { useBackNavigate } from "@/src/shared/utils/use-back-navigate";
 import {
@@ -18,17 +20,17 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import { PaletteActions } from "../constants/actions";
 import { addColorButtonLoadingCalculate } from "../model/loading-states";
 import { usePaletteActions } from "../model/use-palette-actions";
 import { ActionsDropdown } from "./actions-dropdown";
 import { AddColorModal } from "./add-color-modal";
 import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
+import { FullScreenPaletteHeaderContentView } from "./full-screen-palette-header-content-view";
 import { MixColorsModal } from "./mix-colors-modal";
-import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
-import Link from "next/link";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -39,7 +41,7 @@ export const FullScreenPalette = ({
   ...props
 }: FullScreenPaletteProps) => {
   const paletteQuery = usePalettesByIdQuery(paletteId);
-  const addColorMutation = useAddColorToPalette(paletteId);
+  const updatePaletteMutation = useAddColorToPalette(paletteId);
   const deletePaletteMutation = useDeletePaletteMutation();
 
   const { fromUrl, navigateBack } = useBackNavigate();
@@ -51,14 +53,28 @@ export const FullScreenPalette = ({
     deletePaletteConfirmState,
   } = usePaletteActions();
 
+  const [updatedPaletteTitle, setUpdatedPaletteTitle] = useState<string>(
+    paletteQuery.data?.title ?? "",
+  );
+
+  useEffect(() => {
+    setUpdatedPaletteTitle(paletteQuery.data?.title ?? "");
+  }, [paletteQuery.data?.title]);
+
   const isLoadingAddColorButton = addColorButtonLoadingCalculate(
     paletteQuery,
-    addColorMutation,
+    updatePaletteMutation,
   );
 
   const handleAddedColorSelect = (color: Color) => {
-    const currentColors = paletteQuery.data?.colors ?? [];
-    addColorMutation.mutateAsync(currentColors.concat([color]));
+    if (!paletteQuery.isSuccess) return;
+
+    const newPalette = {
+      ...paletteQuery.data,
+      colors: paletteQuery.data.colors.concat([color]),
+    };
+
+    updatePaletteMutation.mutateAsync(newPalette);
   };
 
   const handleDeletePaletteConfirm = (onClose: () => void) => {
@@ -68,6 +84,15 @@ export const FullScreenPalette = ({
       .then(navigateBack);
   };
 
+  const handlePaletteTitleBlur = () => {
+    if (!paletteQuery.isSuccess) return;
+
+    updatePaletteMutation.mutateAsync({
+      ...paletteQuery.data,
+      title: updatedPaletteTitle,
+    });
+  };
+
   if (paletteQuery.isError) {
     notFound();
   }
@@ -75,15 +100,31 @@ export const FullScreenPalette = ({
   return (
     <>
       <DynamicHeaderContent>
-        <Button
-          as={Link}
-          href={fromUrl ?? "/"}
-          size="sm"
-          variant="light"
-          isIconOnly
-        >
-          <ArrowLeftIcon className="w-5" />
-        </Button>
+        <FullScreenPaletteHeaderContentView
+          backButton={
+            <Button
+              as={Link}
+              href={fromUrl ?? "/"}
+              size="sm"
+              variant="light"
+              isIconOnly
+            >
+              <ArrowLeftIcon className="w-5" />
+            </Button>
+          }
+          paletteTitleForm={
+            <ToggledInput
+              value={updatedPaletteTitle}
+              buttonProps={{
+                variant: "light",
+              }}
+              inputProps={{
+                onValueChange: setUpdatedPaletteTitle,
+                onBlur: handlePaletteTitleBlur,
+              }}
+            />
+          }
+        />
       </DynamicHeaderContent>
 
       <WithFallback

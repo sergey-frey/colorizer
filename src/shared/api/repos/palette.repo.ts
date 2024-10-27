@@ -1,10 +1,9 @@
 import { supabase } from "@/src/shared/api/supabase";
-import { Color } from "@/src/shared/types/color.types";
 import { Database } from "@/src/shared/types/db.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { AddPaletteDto } from "../dto";
 import { GenericSchema } from "@supabase/supabase-js/dist/module/lib/types";
+import { AddPaletteDto } from "../dto";
 
 class PaletteRepo {
   private _instance: SupabaseClient<Database, "public", GenericSchema>;
@@ -43,10 +42,10 @@ class PaletteRepo {
     }
   }
 
-  public async addColorToPalette(paletteId: Palette["id"], colors: Color[]) {
+  public async updatePalette(palette: Palette) {
     const query = this._query()
-      .update({ colors })
-      .eq<Palette["id"]>("id", paletteId);
+      .update({ ...palette })
+      .eq<Palette["id"]>("id", palette.id);
 
     const { error } = await query;
 
