@@ -7,7 +7,11 @@ import { aiApi } from "@/src/shared/api/instance";
 import { paletteRepo } from "@/src/shared/api/repos/palette.repo";
 import { queryClient } from "@/src/shared/query-client";
 import { Palette } from "@/src/shared/types/palette.types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
 import { useEffect } from "react";
 
 const ALL_PALETTES_KEY = "palettes";
@@ -30,7 +34,7 @@ export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
   });
 };
 
-export const useAddColorToPalette = (paletteId?: Palette["id"]) => {
+export const useUpdatePaletteMutation = (paletteId?: Palette["id"]) => {
   const { isSuccess, ...otherMutationFields } = useMutation({
     mutationFn: (palette: Palette) => {
       return paletteRepo.updatePalette(palette);
@@ -48,7 +52,7 @@ export const useAddColorToPalette = (paletteId?: Palette["id"]) => {
   return {
     isSuccess,
     ...otherMutationFields,
-  };
+  } as UseMutationResult<void, Error, Palette, unknown>;
 };
 
 export const useAIPaletteMutation = () => {
@@ -83,7 +87,7 @@ export const useAddPaletteMutation = () => {
   return {
     isSuccess,
     ...otherMutationFields,
-  };
+  } as UseMutationResult<Palette, Error, AddPaletteDto, unknown>;
 };
 
 export const useDeletePaletteMutation = () => {
@@ -102,7 +106,5 @@ export const useDeletePaletteMutation = () => {
   return {
     isSuccess,
     ...otherMutationFields,
-  };
+  } as UseMutationResult<void, Error, Palette["id"], unknown>;
 };
-
-export const useUpdatePaletteMutation = () => {};

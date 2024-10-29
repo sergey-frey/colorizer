@@ -1,13 +1,30 @@
-import { Palette } from "@/src/shared/types/palette.types";
-import { UseQueryResult } from "@tanstack/react-query";
+import {
+  useDeletePaletteMutation,
+  usePalettesByIdQuery,
+  useUpdatePaletteMutation,
+} from "@/src/entities/palette";
 
-export const addColorButtonLoadingCalculate = (
-  paletteQuery: UseQueryResult<Palette, Error>,
-  addColorMutation: { isPending: boolean },
+type UIComponentLoadingState = Partial<{
+  isLoading: boolean;
+  isDisabled: boolean;
+}>;
+
+export const getLoadingStates = (
+  paletteQuery: ReturnType<typeof usePalettesByIdQuery>,
+  updatePaletteMutation: ReturnType<typeof useUpdatePaletteMutation>,
+  deletePaletteMutation: ReturnType<typeof useDeletePaletteMutation>,
 ) => {
-  return (
-    paletteQuery.isPending ||
-    paletteQuery.isRefetching ||
-    addColorMutation.isPending
-  );
+  const addColorButton: UIComponentLoadingState = {
+    isLoading: updatePaletteMutation.isPending,
+    isDisabled: paletteQuery.isRefetching || updatePaletteMutation.isPending,
+  };
+
+  const renamePaletteInput: UIComponentLoadingState = {
+    isDisabled: paletteQuery.isRefetching || updatePaletteMutation.isPending,
+  };
+
+  return {
+    addColorButton,
+    renamePaletteInput,
+  };
 };
