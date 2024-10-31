@@ -17,7 +17,7 @@ export const useColorActions = ({
     copyToClipboard(getRGBAStyle(color));
   };
 
-  const deleteColorClick = (color: Color) => () => {
+  const deleteColorClick = (color: Color) => {
     setWorkingColor(color);
     deleteColorConfirmState.onOpen();
   };
