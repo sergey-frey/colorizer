@@ -10,10 +10,12 @@ import { getLoadingStates } from "./loading-states";
 
 type UseFullScreenPaletteApiOptions = {
   paletteId: Palette["id"];
+  workingColor: Color | null;
 };
 
 export const useFullScreenPaletteApi = ({
   paletteId,
+  workingColor,
 }: UseFullScreenPaletteApiOptions) => {
   const paletteQuery = usePalettesByIdQuery(paletteId);
   const updatePaletteMutation = useUpdatePaletteMutation(paletteId);
@@ -24,7 +26,7 @@ export const useFullScreenPaletteApi = ({
   const loadingStates = getLoadingStates(
     paletteQuery,
     updatePaletteMutation,
-    deletePaletteMutation,
+    // deletePaletteMutation,
   );
 
   const addedColorSelect = (color: Color) => {
@@ -57,6 +59,19 @@ export const useFullScreenPaletteApi = ({
     });
   };
 
+  const deleteColorConfirm = (onClose: () => void) => {
+    if (!paletteQuery.isSuccess || workingColor === null) return;
+
+    const newPalette = {
+      ...paletteQuery.data,
+      colors: paletteQuery.data.colors.filter(
+        (color) => color !== workingColor,
+      ),
+    };
+
+    updatePaletteMutation.mutateAsync(newPalette).finally(onClose);
+  };
+
   return {
     paletteQuery,
     updatePaletteMutation,
@@ -66,6 +81,7 @@ export const useFullScreenPaletteApi = ({
       addedColorSelect,
       deletePaletteConfirm,
       paletteTitleBlur,
+      deleteColorConfirm,
     },
 
     loadingStates,

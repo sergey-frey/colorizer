@@ -9,10 +9,9 @@ import { queryClient } from "@/src/shared/query-client";
 import { Palette } from "@/src/shared/types/palette.types";
 import {
   useMutation,
-  UseMutationResult,
+  UseMutationOptions,
   useQuery,
 } from "@tanstack/react-query";
-import { useEffect } from "react";
 
 const ALL_PALETTES_KEY = "palettes";
 
@@ -35,24 +34,16 @@ export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
 };
 
 export const useUpdatePaletteMutation = (paletteId?: Palette["id"]) => {
-  const { isSuccess, ...otherMutationFields } = useMutation({
+  return useMutation({
     mutationFn: (palette: Palette) => {
       return paletteRepo.updatePalette(palette);
     },
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [getPaletteWithIdKey(paletteId)],
       });
-    }
-  }, [isSuccess, paletteId]);
-
-  return {
-    isSuccess,
-    ...otherMutationFields,
-  } as UseMutationResult<void, Error, Palette, unknown>;
+    },
+  });
 };
 
 export const useAIPaletteMutation = () => {
@@ -72,39 +63,26 @@ export const useAIPaletteMutation = () => {
 };
 
 export const useAddPaletteMutation = () => {
-  const { isSuccess, ...otherMutationFields } = useMutation({
+  return useMutation({
     mutationFn: (dto: AddPaletteDto) => paletteRepo.addPalette(dto),
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [ALL_PALETTES_KEY],
       });
-    }
-  }, [isSuccess]);
-
-  return {
-    isSuccess,
-    ...otherMutationFields,
-  } as UseMutationResult<Palette, Error, AddPaletteDto, unknown>;
+    },
+  });
 };
 
-export const useDeletePaletteMutation = () => {
-  const { isSuccess, ...otherMutationFields } = useMutation({
+export const useDeletePaletteMutation = (
+  options?: UseMutationOptions<void, Error, Palette["id"], unknown>,
+) => {
+  return useMutation({
     mutationFn: (id: Palette["id"]) => paletteRepo.deletePalette(id),
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [ALL_PALETTES_KEY],
       });
-    }
-  }, [isSuccess]);
-
-  return {
-    isSuccess,
-    ...otherMutationFields,
-  } as UseMutationResult<void, Error, Palette["id"], unknown>;
+    },
+    ...options,
+  });
 };

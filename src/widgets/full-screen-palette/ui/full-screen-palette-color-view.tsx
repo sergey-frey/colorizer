@@ -1,7 +1,5 @@
 import { ColorView } from "@/src/entities/color";
-import { getRGBAStyle } from "@/src/shared/lib/color";
 import { Color } from "@/src/shared/types/color.types";
-import { copyToClipboard } from "@/src/shared/utils/copy";
 import { useTemporaryDisabled } from "@/src/shared/utils/use-temporary-disabled";
 import { Button } from "@nextui-org/button";
 import { useColorViewDisplays } from "../model/use-color-view-displays";
@@ -10,10 +8,14 @@ const copyButtonTimeout = 1500;
 
 type FullScreenPaletteColorViewProps = {
   color: Color;
+  onCopy?: (color: Color) => void;
+  onDelete?: () => void;
 };
 
 export const FullScreenPaletteColorView = ({
   color,
+  onCopy,
+  onDelete,
 }: FullScreenPaletteColorViewProps) => {
   const { isDisabled: isCopyButtonDisabled, disable: disableCopyButton } =
     useTemporaryDisabled(copyButtonTimeout);
@@ -21,8 +23,12 @@ export const FullScreenPaletteColorView = ({
   const { Icons, colors } = useColorViewDisplays({ isCopyButtonDisabled });
 
   const handleCopyClick = () => {
-    copyToClipboard(getRGBAStyle(color));
+    onCopy?.(color);
     disableCopyButton();
+  };
+
+  const handleDeleteClick = () => {
+    onDelete?.();
   };
 
   return (
@@ -40,6 +46,15 @@ export const FullScreenPaletteColorView = ({
             onClick={handleCopyClick}
           >
             <Icons.CopyIcon className="w-5" />
+          </Button>
+
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onClick={handleDeleteClick}
+          >
+            <Icons.DeleteIcon className="w-5" />
           </Button>
         </>
       }

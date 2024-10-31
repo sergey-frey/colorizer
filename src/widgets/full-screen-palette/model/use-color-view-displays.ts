@@ -1,4 +1,8 @@
-import { CheckCircleIcon, ClipboardIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  ClipboardIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { ButtonProps } from "@nextui-org/button";
 
 type UseColorViewDisplaysOptions = {
@@ -13,5 +17,7 @@ export const useColorViewDisplays = ({
     ? "success"
     : "default";
 
-  return { Icons: { CopyIcon }, colors: { copyColor } };
+  const DeleteIcon = TrashIcon;
+
+  return { Icons: { CopyIcon, DeleteIcon }, colors: { copyColor } };
 };

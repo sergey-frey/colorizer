@@ -3,3 +3,8 @@ export enum PaletteActions {
   mix = "mix",
   delete = "delete",
 }
+
+export enum ColorActions {
+  copy = "copy",
+  delete = "delete",
+}

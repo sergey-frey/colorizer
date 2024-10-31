@@ -1,5 +1,4 @@
 import {
-  useDeletePaletteMutation,
   usePalettesByIdQuery,
   useUpdatePaletteMutation,
 } from "@/src/entities/palette";
@@ -12,7 +11,7 @@ type UIComponentLoadingState = Partial<{
 export const getLoadingStates = (
   paletteQuery: ReturnType<typeof usePalettesByIdQuery>,
   updatePaletteMutation: ReturnType<typeof useUpdatePaletteMutation>,
-  deletePaletteMutation: ReturnType<typeof useDeletePaletteMutation>,
+  // deletePaletteMutation: ReturnType<typeof useDeletePaletteMutation>,
 ) => {
   const addColorButton: UIComponentLoadingState = {
     isLoading: updatePaletteMutation.isPending,

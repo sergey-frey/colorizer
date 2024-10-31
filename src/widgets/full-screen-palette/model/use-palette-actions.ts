@@ -37,8 +37,5 @@ export const usePaletteActions = () => {
     mixColorsModalState,
     deletePaletteConfirmState,
     getActionHandler,
-    actionsHandlers: {
-      addColorClick,
-    },
   };
 };

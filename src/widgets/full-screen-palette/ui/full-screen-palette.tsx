@@ -19,7 +19,7 @@ import {
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useState } from "react";
 import { PaletteActions } from "../constants/actions";
 import { useFullScreenPaletteApi } from "../model/use-full-screen-palette-api";
 import { usePaletteActions } from "../model/use-palette-actions";
@@ -28,6 +28,9 @@ import { AddColorModal } from "./add-color-modal";
 import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
 import { FullScreenPaletteHeaderContentView } from "./full-screen-palette-header-content-view";
 import { MixColorsModal } from "./mix-colors-modal";
+import { Color } from "@/src/shared/types/color.types";
+import { useColorActions } from "../model/use-color-actions";
+import { getRGBAStyle } from "@/src/shared/lib/color";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];
@@ -37,12 +40,15 @@ export const FullScreenPalette = ({
   paletteId,
   ...props
 }: FullScreenPaletteProps) => {
+  const [workingColor, setWorkingColor] = useState<Color | null>(null);
+
   const {
     paletteQuery,
     loadingStates,
     handlers: apiHandlers,
   } = useFullScreenPaletteApi({
     paletteId,
+    workingColor,
   });
 
   const { fromUrl } = useBackNavigate();
@@ -53,6 +59,10 @@ export const FullScreenPalette = ({
     getActionHandler,
     deletePaletteConfirmState,
   } = usePaletteActions();
+
+  const { deleteColorConfirmState, actionsHandlers } = useColorActions({
+    setWorkingColor,
+  });
 
   const [updatedPaletteTitle, setUpdatedPaletteTitle] = useObservableState(
     paletteQuery.data?.title ?? "",
@@ -101,7 +111,13 @@ export const FullScreenPalette = ({
           {...props}
           palette={paletteQuery.data!}
           colorsRender={(color, i) => {
-            return <FullScreenPaletteColorView key={i} color={color} />;
+            return (
+              <FullScreenPaletteColorView
+                key={i}
+                color={color}
+                onDelete={actionsHandlers.deleteColorClick(color)}
+              />
+            );
           }}
           actions={
             <>
@@ -142,11 +158,24 @@ export const FullScreenPalette = ({
       />
 
       <Confirm
-        headerContent={"Delete confirm"}
+        headerContent={"Delete palette confirm"}
         bodyContent={"Are you sure you want to delete palette?"}
         isOpen={deletePaletteConfirmState.isOpen}
         onOpenChange={deletePaletteConfirmState.onOpenChange}
         onConfirm={apiHandlers.deletePaletteConfirm}
+      />
+
+      <Confirm
+        headerContent={"Delete color confirm"}
+        bodyContent={
+          <>
+            Are you sure you want to delete color?
+            <p>{workingColor && getRGBAStyle(workingColor)}</p>
+          </>
+        }
+        isOpen={deleteColorConfirmState.isOpen}
+        onOpenChange={deleteColorConfirmState.onOpenChange}
+        onConfirm={apiHandlers.deleteColorConfirm}
       />
     </>
   );
