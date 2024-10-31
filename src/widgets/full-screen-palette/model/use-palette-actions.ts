@@ -29,6 +29,9 @@ export const usePaletteActions = () => {
       case PaletteActions.delete: {
         return deletePaletteClick;
       }
+      default: {
+        return () => {};
+      }
     }
   };
 

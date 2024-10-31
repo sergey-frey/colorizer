@@ -3,6 +3,10 @@ import { Color } from "@/src/shared/types/color.types";
 import { useTemporaryDisabled } from "@/src/shared/utils/use-temporary-disabled";
 import { Button } from "@nextui-org/button";
 import { useColorViewDisplays } from "../model/use-color-view-displays";
+import {
+  colorFormatSelector,
+  useColorDisplaySettings,
+} from "@/src/features/color-display-settings";
 
 const copyButtonTimeout = 1500;
 
@@ -17,6 +21,7 @@ export const FullScreenPaletteColorView = ({
   onCopy,
   onDelete,
 }: FullScreenPaletteColorViewProps) => {
+  const format = useColorDisplaySettings(colorFormatSelector);
   const { isDisabled: isCopyButtonDisabled, disable: disableCopyButton } =
     useTemporaryDisabled(copyButtonTimeout);
 
@@ -34,6 +39,7 @@ export const FullScreenPaletteColorView = ({
   return (
     <ColorView
       color={color}
+      format={format}
       className="grow"
       actions={
         <>

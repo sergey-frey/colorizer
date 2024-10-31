@@ -6,6 +6,8 @@ import {
 } from "@/src/entities/palette";
 import { Confirm } from "@/src/features/confirm";
 import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
+import { getRGBAStyle } from "@/src/shared/lib/color";
+import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { ToggledInput } from "@/src/shared/ui/toggled-input";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
@@ -21,6 +23,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HTMLAttributes, useState } from "react";
 import { PaletteActions } from "../constants/actions";
+import { useColorActions } from "../model/use-color-actions";
 import { useFullScreenPaletteApi } from "../model/use-full-screen-palette-api";
 import { usePaletteActions } from "../model/use-palette-actions";
 import { ActionsDropdown } from "./actions-dropdown";
@@ -28,9 +31,6 @@ import { AddColorModal } from "./add-color-modal";
 import { FullScreenPaletteColorView } from "./full-screen-palette-color-view";
 import { FullScreenPaletteHeaderContentView } from "./full-screen-palette-header-content-view";
 import { MixColorsModal } from "./mix-colors-modal";
-import { Color } from "@/src/shared/types/color.types";
-import { useColorActions } from "../model/use-color-actions";
-import { getRGBAStyle } from "@/src/shared/lib/color";
 
 type FullScreenPaletteProps = HTMLAttributes<HTMLElement> & {
   paletteId: Palette["id"];

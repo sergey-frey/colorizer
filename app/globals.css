@@ -41,4 +41,9 @@ body .rcp-root {
 body .rcp-saturation {
   border-radius: 10px;
 }
+
+body .rcp-field-input {
+  border: none;
+}
+
 /* --- END --- */

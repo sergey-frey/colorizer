@@ -1,5 +1,6 @@
 import {
   AdjustmentsHorizontalIcon,
+  Cog6ToothIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { Button, ButtonProps } from "@nextui-org/button";
@@ -11,6 +12,8 @@ import {
 } from "@nextui-org/dropdown";
 import { Key } from "react";
 import { PaletteActions } from "../constants/actions";
+import Link from "next/link";
+import { ROUTES } from "@/src/shared/constants/navigation";
 
 type ActionsDropdownProps = ButtonProps & {
   onAction: (actionKey: PaletteActions) => void;
@@ -32,6 +35,13 @@ export const ActionsDropdown = ({
           key={PaletteActions.mix}
         >
           Mix colors
+        </DropdownItem>
+        <DropdownItem
+          as={Link}
+          href={ROUTES.settings}
+          startContent={<Cog6ToothIcon className="w-5" />}
+        >
+          Settings
         </DropdownItem>
         <DropdownItem
           startContent={<TrashIcon className="w-5" />}
