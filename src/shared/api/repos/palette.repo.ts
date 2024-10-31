@@ -1,6 +1,7 @@
 import { supabase } from "@/src/shared/api/supabase";
 import { Database } from "@/src/shared/types/db.types";
 import { Palette } from "@/src/shared/types/palette.types";
+import { WithAbortSignal } from "@/src/shared/types/util.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { GenericSchema } from "@supabase/supabase-js/dist/module/lib/types";
 import { AddPaletteDto } from "../dto";
@@ -16,8 +17,8 @@ class PaletteRepo {
     return this._instance.from("palettes");
   }
 
-  public async getAllPalettes() {
-    const query = this._query().select<"*", Palette>();
+  public async getAllPalettes({ signal }: WithAbortSignal) {
+    const query = this._query().select<"*", Palette>().abortSignal(signal);
 
     const { data, error } = await query;
 
@@ -28,10 +29,14 @@ class PaletteRepo {
     }
   }
 
-  public async getPaletteById(paletteId: Palette["id"]) {
+  public async getPaletteById(
+    paletteId: Palette["id"],
+    { signal }: WithAbortSignal,
+  ) {
     const query = this._query()
       .select<"*", Palette>("*")
-      .eq<Palette["id"]>("id", paletteId);
+      .eq<Palette["id"]>("id", paletteId)
+      .abortSignal(signal);
 
     const { data, error } = await query;
 

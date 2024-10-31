@@ -9,7 +9,7 @@ const copyButtonTimeout = 1500;
 type FullScreenPaletteColorViewProps = {
   color: Color;
   onCopy?: (color: Color) => void;
-  onDelete?: () => void;
+  onDelete?: (color: Color) => void;
 };
 
 export const FullScreenPaletteColorView = ({
@@ -28,7 +28,7 @@ export const FullScreenPaletteColorView = ({
   };
 
   const handleDeleteClick = () => {
-    onDelete?.();
+    onDelete?.(color);
   };
 
   return (

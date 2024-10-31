@@ -21,14 +21,14 @@ const getPaletteWithIdKey = (id?: Palette["id"]) => {
 
 export const usePalettesQuery = () => {
   return useQuery<Palette[]>({
-    queryFn: () => paletteRepo.getAllPalettes(),
+    queryFn: ({ signal }) => paletteRepo.getAllPalettes({ signal }),
     queryKey: [ALL_PALETTES_KEY],
   });
 };
 
 export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
   return useQuery<Palette>({
-    queryFn: () => paletteRepo.getPaletteById(paletteId),
+    queryFn: ({ signal }) => paletteRepo.getPaletteById(paletteId, { signal }),
     queryKey: [getPaletteWithIdKey(paletteId)],
   });
 };

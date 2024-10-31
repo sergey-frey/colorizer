@@ -60,9 +60,10 @@ export const FullScreenPalette = ({
     deletePaletteConfirmState,
   } = usePaletteActions();
 
-  const { deleteColorConfirmState, actionsHandlers } = useColorActions({
-    setWorkingColor,
-  });
+  const { deleteColorConfirmState, actionsHandlers: colorActionsHandlers } =
+    useColorActions({
+      setWorkingColor,
+    });
 
   const [updatedPaletteTitle, setUpdatedPaletteTitle] = useObservableState(
     paletteQuery.data?.title ?? "",
@@ -115,7 +116,8 @@ export const FullScreenPalette = ({
               <FullScreenPaletteColorView
                 key={i}
                 color={color}
-                onDelete={actionsHandlers.deleteColorClick(color)}
+                onCopy={colorActionsHandlers.copyColorClick}
+                onDelete={colorActionsHandlers.deleteColorClick}
               />
             );
           }}
