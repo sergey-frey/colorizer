@@ -3,6 +3,7 @@
 import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
 import { SettingsNavigation } from "@/src/widgets/settings-navigation";
 import { cn } from "@nextui-org/theme";
+import { Suspense } from "react";
 
 export const SettingsLayout = ({
   children,
@@ -24,7 +25,10 @@ export const SettingsLayout = ({
             "lg:grid-cols-5",
           )}
         >
-          <SettingsNavigation />
+          <Suspense>
+            <SettingsNavigation />
+          </Suspense>
+
           <div className="md:[grid-column:2/5] lg:[grid-column:2/6]">
             {children}
           </div>

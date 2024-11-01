@@ -8,9 +8,8 @@ import {
 import { Button } from "@nextui-org/button";
 import { cn } from "@nextui-org/theme";
 import Link from "next/link";
-import { navItems } from "../constants/nav-items";
 import { usePathname } from "next/navigation";
-import { ROUTES } from "@/src/shared/constants/navigation";
+import { navItems } from "../constants/nav-items";
 
 type MobileNavigationProps = Omit<DrawerProps, "children">;
 
@@ -23,7 +22,7 @@ export const MobileNavigation = ({
 
   return (
     <>
-      <Drawer {...props} className={cn("max-w-none", "sm:max-w-xs")}>
+      <Drawer {...props} className={cn("max-w-none", "sm:max-w-xs", className)}>
         <DrawerContent>
           <DrawerHeader>Settings</DrawerHeader>
           <DrawerBody>
