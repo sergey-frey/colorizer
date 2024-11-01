@@ -38,7 +38,7 @@ export const ActionsDropdown = ({
         </DropdownItem>
         <DropdownItem
           as={Link}
-          href={ROUTES.settings}
+          href={ROUTES.settings.colors}
           startContent={<Cog6ToothIcon className="w-5" />}
         >
           Settings

@@ -12,6 +12,10 @@ type HeaderProps = HTMLAttributes<HTMLElement>;
 export const Header = ({ className, ...props }: HeaderProps) => {
   const content = useHeaderContent(headerContentSelector);
 
+  if (content === null) {
+    return null;
+  }
+
   return (
     <>
       <header {...props} className={cn("p-2 border-b-1", className)}>

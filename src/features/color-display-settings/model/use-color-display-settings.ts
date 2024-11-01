@@ -1,4 +1,3 @@
-import { useColor } from "react-color-palette";
 import type { ColorFormat } from "@/src/shared/types/color.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

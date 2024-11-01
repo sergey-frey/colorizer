@@ -3,10 +3,12 @@ import { useHeaderContent } from "../model/use-header-content";
 import { headerSetContentSelector } from "../model/header-content.selectors";
 
 type DynamicHeaderContentProps = {
-  children: ReactNode;
+  children?: ReactNode;
+  isEmpty?: boolean;
 };
 
 export const DynamicHeaderContent = ({
+  isEmpty = false,
   children,
 }: DynamicHeaderContentProps) => {
   const setContent = useHeaderContent(headerSetContentSelector);
@@ -16,8 +18,12 @@ export const DynamicHeaderContent = ({
     Так же, как если бы это был прямой наследник компонента 
   */
   useEffect(() => {
+    if (isEmpty) {
+      return setContent(null);
+    }
+
     setContent(children);
-  }, [children, setContent]);
+  }, [children, setContent, isEmpty]);
 
   return null;
 };

@@ -1,7 +1,10 @@
 export const ROUTES = {
   home: "/",
-  settings: "/settings",
-}
+  settings: {
+    base: "/settings",
+    colors: "/settings/colors",
+  },
+};
 
 export enum SearchParams {
   from = "from",
