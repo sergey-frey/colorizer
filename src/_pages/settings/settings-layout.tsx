@@ -20,12 +20,14 @@ export const SettingsLayout = ({
           className={cn(
             "container mx-auto",
             "grid grid-cols-1",
-            "md:grid-cols-4 md:mt-4",
+            "md:mt-4 md:grid-cols-4",
             "lg:grid-cols-5",
           )}
         >
           <SettingsNavigation />
-          {children}
+          <div className="md:[grid-column:2/5] lg:[grid-column:2/6]">
+            {children}
+          </div>
         </div>
       </div>
     </>

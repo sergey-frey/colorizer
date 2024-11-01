@@ -1,37 +1,25 @@
-import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
-import { Screens } from "@/src/shared/constants/responsive";
 import {
   Drawer,
   DrawerBody,
   DrawerContent,
   DrawerHeader,
+  DrawerProps,
 } from "@/src/shared/ui/drawer";
-import { Bars2Icon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
-import { useDisclosure } from "@nextui-org/modal";
+import { cn } from "@nextui-org/theme";
 import Link from "next/link";
-import { useMediaQuery } from "react-responsive";
 import { navItems } from "../constants/nav-items";
 
-export const MobileNavigation = () => {
-  const isMd = useMediaQuery({ minWidth: Screens.md });
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+type MobileNavigationProps = Omit<DrawerProps, "children">;
 
+export const MobileNavigation = ({
+  className,
+  onClose,
+  ...props
+}: MobileNavigationProps) => {
   return (
     <>
-      <DynamicHeaderContent isEmpty={isMd}>
-        <div className="container mx-auto">
-          <Button isIconOnly onClick={onOpen} className="md:hidden">
-            <Bars2Icon className="w-5 h-5" />
-          </Button>
-        </div>
-      </DynamicHeaderContent>
-
-      <Drawer
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        className="max-w-none sm:max-w-xs"
-      >
+      <Drawer {...props} className={cn("max-w-none", "sm:max-w-xs")}>
         <DrawerContent>
           <DrawerHeader>Settings</DrawerHeader>
           <DrawerBody>

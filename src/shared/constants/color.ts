@@ -1,4 +1,4 @@
-import { Color } from "../types/color.types";
+import { Color, ColorFormat } from "../types/color.types";
 
 export const BLACK_COLOR: Color = {
   r: 0,
@@ -13,3 +13,5 @@ export const WHITE_COLOR: Color = {
   b: 255,
   a: 1,
 };
+
+export const ALL_POSSIBLE_FORMATS: Array<ColorFormat> = ["rgba", "hex"];

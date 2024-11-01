@@ -3,16 +3,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type UseColorDisplaySettings = {
-	format: ColorFormat;
-	setFormat: (format: ColorFormat) => void;
+  format: ColorFormat;
+  setFormat: (format: ColorFormat) => void;
 };
 
 export const useColorDisplaySettings = create<UseColorDisplaySettings>()(
-	persist(
-		(set) => ({
-			format: "hex",
-			setFormat: (format) => set({ format }),
-		}),
-		{ name: "color-display-settings" },
-	),
+  persist(
+    (set) => ({
+      format: "hex",
+      setFormat: (format) => set({ format }),
+    }),
+    { name: "color-display-settings" },
+  ),
 );
