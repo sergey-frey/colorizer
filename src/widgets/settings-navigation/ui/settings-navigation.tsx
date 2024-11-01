@@ -35,7 +35,7 @@ export const SettingsNavigation = () => {
         </Button>
       </DynamicHeaderContent>
 
-      <DesktopNavigation className="w-full hidden md:block" />
+      <DesktopNavigation className="w-full hidden md:grid" />
 
       <MobileNavigation
         isOpen={isOpen}

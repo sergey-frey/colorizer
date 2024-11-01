@@ -1,7 +1,7 @@
 export const ROUTES = {
   home: "/",
   settings: {
-    base: "/settings",
+    user: "/settings/user",
     colors: "/settings/colors",
   },
 };

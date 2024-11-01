@@ -21,11 +21,11 @@ export const ColorsSettingsForm = () => {
   const currentColorFormat = useColorDisplaySettings(colorFormatSelector);
 
   return (
-    <section>
+    <section className="pt-6 md:pt-0">
       <div
         className={cn(
           "flex flex-col items-start",
-          "md:flex-row md:items-center md:justify-between",
+          "sm:flex-row sm:items-center sm:justify-between",
         )}
       >
         <h2 className="text-sm text-slate-600">
@@ -33,7 +33,7 @@ export const ColorsSettingsForm = () => {
         </h2>
         <ButtonGroup
           size="sm"
-          className="grid w-full mt-1 md:mt-0 md:w-auto"
+          className="grid w-full mt-1 sm:mt-0 sm:w-auto"
           style={{ gridTemplateColumns: `repeat(${amountOfFormats}, 1fr)` }}
         >
           {ALL_POSSIBLE_FORMATS.map((format, i) => {
