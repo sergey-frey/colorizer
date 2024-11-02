@@ -1,3 +1,4 @@
+import { ROUTES } from "@/src/shared/constants/navigation";
 import {
   AdjustmentsHorizontalIcon,
   Cog6ToothIcon,
@@ -5,15 +6,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { Button, ButtonProps } from "@nextui-org/button";
 import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/dropdown";
-import { Key } from "react";
-import { PaletteActions } from "../constants/actions";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  useDisclosure,
+} from "@nextui-org/react";
 import Link from "next/link";
-import { ROUTES } from "@/src/shared/constants/navigation";
+import { PaletteActions } from "../constants/actions";
 
 type ActionsDropdownProps = ButtonProps & {
   onAction: (actionKey: PaletteActions) => void;
@@ -23,34 +22,47 @@ export const ActionsDropdown = ({
   onAction,
   ...props
 }: ActionsDropdownProps) => {
-  return (
-    <Dropdown backdrop="opaque">
-      <DropdownTrigger>
-        <Button {...props} />
-      </DropdownTrigger>
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
-      <DropdownMenu onAction={onAction as (key: Key) => void}>
-        <DropdownItem
+  const handleOptionClick = (key: PaletteActions) => () => {
+    onClose();
+    onAction(key);
+  };
+
+  return (
+    <Popover backdrop="blur" isOpen={isOpen} onClose={onClose}>
+      <PopoverTrigger onClick={onOpen}>
+        <Button {...props} />
+      </PopoverTrigger>
+
+      <PopoverContent className="p-1">
+        <Button
+          className="w-full justify-start"
+          variant="light"
           startContent={<AdjustmentsHorizontalIcon className="w-5" />}
-          key={PaletteActions.mix}
+          onClick={handleOptionClick(PaletteActions.mix)}
         >
           Mix colors
-        </DropdownItem>
-        <DropdownItem
+        </Button>
+        <Button
           as={Link}
           href={ROUTES.settings.colors}
+          className="w-full justify-start"
+          variant="light"
           startContent={<Cog6ToothIcon className="w-5" />}
         >
           Settings
-        </DropdownItem>
-        <DropdownItem
+        </Button>
+        <Button
+          className="w-full justify-start"
+          variant="light"
           startContent={<TrashIcon className="w-5" />}
-          key={PaletteActions.delete}
           color="danger"
+          onClick={handleOptionClick(PaletteActions.delete)}
         >
           Delete palette
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+        </Button>
+      </PopoverContent>
+    </Popover>
   );
 };
