@@ -10,7 +10,7 @@ export type UseColorDisplaySettings = {
 export const useColorDisplaySettings = create<UseColorDisplaySettings>()(
   persist(
     (set) => ({
-      format: "hex",
+      format: "rgba",
       setFormat: (format) => set({ format }),
     }),
     { name: "color-display-settings" },

@@ -20,6 +20,7 @@ export const DesktopNavigation = ({
           const Icon = item.icon;
           const isActive = pathname === item.href;
           const buttonColor = isActive ? "primary" : "default";
+          const buttonVariant = isActive ? "solid" : "ghost";
 
           return (
             <li key={item.href}>
@@ -27,6 +28,7 @@ export const DesktopNavigation = ({
                 as={Link}
                 href={item.href}
                 color={buttonColor}
+                variant={buttonVariant}
                 startContent={<Icon className="w-5 h-5" />}
                 className="w-full justify-start"
               >

@@ -1,5 +1,6 @@
 "use client";
 
+import { ColorBadge } from "@/src/entities/color";
 import {
   colorFormatSelector,
   colorSetFormatSelector,
@@ -29,11 +30,12 @@ export const ColorsSettingsForm = () => {
         )}
       >
         <h2 className="text-sm text-slate-600">
-          Color format: {getColorStringView(WHITE_COLOR, currentColorFormat)}
+          Color format:{" "}
+          <ColorBadge color={WHITE_COLOR} format={currentColorFormat} />
         </h2>
         <ButtonGroup
           size="sm"
-          className="grid w-full mt-1 sm:mt-0 sm:w-auto"
+          className="grid w-full mt-2 sm:mt-0 sm:w-auto"
           style={{ gridTemplateColumns: `repeat(${amountOfFormats}, 1fr)` }}
         >
           {ALL_POSSIBLE_FORMATS.map((format, i) => {

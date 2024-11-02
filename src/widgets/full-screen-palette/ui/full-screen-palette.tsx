@@ -1,12 +1,16 @@
 "use client";
 
+import { ColorBadge } from "@/src/entities/color";
 import {
   FullScreenPaletteView,
   FullScreenPaletteViewFallback,
 } from "@/src/entities/palette";
+import {
+  colorFormatSelector,
+  useColorDisplaySettings,
+} from "@/src/features/color-display-settings";
 import { Confirm } from "@/src/features/confirm";
 import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
-import { getRGBAStyle } from "@/src/shared/lib/color";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { ToggledInput } from "@/src/shared/ui/toggled-input";
@@ -41,6 +45,7 @@ export const FullScreenPalette = ({
   ...props
 }: FullScreenPaletteProps) => {
   const [workingColor, setWorkingColor] = useState<Color | null>(null);
+  const format = useColorDisplaySettings(colorFormatSelector);
 
   const {
     paletteQuery,
@@ -172,7 +177,11 @@ export const FullScreenPalette = ({
         bodyContent={
           <>
             Are you sure you want to delete color?
-            <p>{workingColor && getRGBAStyle(workingColor)}</p>
+            <p>
+              {workingColor && (
+                <ColorBadge color={workingColor} format={format} />
+              )}
+            </p>
           </>
         }
         isOpen={deleteColorConfirmState.isOpen}

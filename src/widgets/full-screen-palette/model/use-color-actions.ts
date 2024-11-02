@@ -1,4 +1,8 @@
-import { getRGBAStyle } from "@/src/shared/lib/color";
+import {
+  colorFormatSelector,
+  useColorDisplaySettings,
+} from "@/src/features/color-display-settings";
+import { getColorStringView, getRGBAStyle } from "@/src/shared/lib/color";
 import { Color } from "@/src/shared/types/color.types";
 import { copyToClipboard } from "@/src/shared/utils/copy";
 import { useDisclosure } from "@nextui-org/modal";
@@ -11,10 +15,11 @@ type UseColorActionsOptions = {
 export const useColorActions = ({
   setWorkingColor,
 }: UseColorActionsOptions) => {
+  const colorFormat = useColorDisplaySettings(colorFormatSelector);
   const deleteColorConfirmState = useDisclosure();
 
   const copyColorClick = (color: Color) => {
-    copyToClipboard(getRGBAStyle(color));
+    copyToClipboard(getColorStringView(color, colorFormat));
   };
 
   const deleteColorClick = (color: Color) => {

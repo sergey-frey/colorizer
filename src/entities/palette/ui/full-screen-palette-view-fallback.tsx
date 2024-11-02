@@ -25,7 +25,7 @@ export const FullScreenPaletteViewFallback = ({
       actions={
         <>
           <Skeleton className="min-w-10 h-10 rounded-medium" />
-          <Skeleton className="w-full h-10 rounded-medium" />
+          <Skeleton className="w-full h-10 rounded-medium sm:w-[127px]" />
         </>
       }
     />
