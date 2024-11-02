@@ -1,4 +1,4 @@
-import { getRGBAStyle } from "@/src/shared/lib/color";
+import { colorFormatter } from "@/src/shared/lib/color-formatter";
 import { Color } from "@/src/shared/types/color.types";
 import { cn } from "@nextui-org/theme";
 import { HTMLAttributes } from "react";
@@ -16,7 +16,7 @@ export const CompactColorView = ({
     <span
       {...props}
       className={cn("w-10 h-10 rounded-md", className)}
-      style={{ backgroundColor: getRGBAStyle(color) }}
+      style={{ backgroundColor: colorFormatter(color).style() }}
     />
   );
 };

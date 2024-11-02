@@ -10,7 +10,6 @@ import {
   ALL_POSSIBLE_FORMATS,
   WHITE_COLOR,
 } from "@/src/shared/constants/color";
-import { getColorStringView } from "@/src/shared/lib/color";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { Divider } from "@nextui-org/react";
 import { cn } from "@nextui-org/theme";

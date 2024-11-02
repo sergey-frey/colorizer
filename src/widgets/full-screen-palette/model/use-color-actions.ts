@@ -2,7 +2,7 @@ import {
   colorFormatSelector,
   useColorDisplaySettings,
 } from "@/src/features/color-display-settings";
-import { getColorStringView, getRGBAStyle } from "@/src/shared/lib/color";
+import { colorFormatter } from "@/src/shared/lib/color-formatter";
 import { Color } from "@/src/shared/types/color.types";
 import { copyToClipboard } from "@/src/shared/utils/copy";
 import { useDisclosure } from "@nextui-org/modal";
@@ -19,7 +19,7 @@ export const useColorActions = ({
   const deleteColorConfirmState = useDisclosure();
 
   const copyColorClick = (color: Color) => {
-    copyToClipboard(getColorStringView(color, colorFormat));
+    copyToClipboard(colorFormatter(color).string(colorFormat));
   };
 
   const deleteColorClick = (color: Color) => {

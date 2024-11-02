@@ -1,8 +1,4 @@
-import {
-  getColorStringView,
-  getRGBAStyle,
-  getTextColorByBg,
-} from "@/src/shared/lib/color";
+import { colorFormatter } from "@/src/shared/lib/color-formatter";
 import { Color, ColorFormat } from "@/src/shared/types/color.types";
 import { cn } from "@nextui-org/theme";
 import { HTMLAttributes } from "react";
@@ -18,16 +14,18 @@ export const ColorBadge = ({
   className,
   ...props
 }: ColorBadgeProps) => {
+  const formatter = colorFormatter(color);
+
   return (
     <span
       {...props}
       className={cn("p-1 rounded-md shadow", className)}
       style={{
-        backgroundColor: getRGBAStyle(color),
-        color: getRGBAStyle(getTextColorByBg(color)),
+        backgroundColor: formatter.style(),
+        color: formatter.contrastColor().style(),
       }}
     >
-      {getColorStringView(color, format)}
+      {formatter.string(format)}
     </span>
   );
 };

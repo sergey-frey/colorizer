@@ -1,5 +1,4 @@
 import { CompactColorView } from "@/src/entities/color";
-import { getRGBAStyle, getTextColorByBg } from "@/src/shared/lib/color";
 import { Color } from "@/src/shared/types/color.types";
 import { cn } from "@nextui-org/theme";
 import { FormEvent, FormHTMLAttributes, ReactNode } from "react";
@@ -7,6 +6,7 @@ import { STUB_COLOR } from "../constants/mixed-color";
 import { getColorsByMixCounts, mixColors } from "../model/mix-colors";
 import { useMixCounts } from "../model/use-mix-counts";
 import { ColorControlButton } from "./color-control-button";
+import { colorFormatter } from "@/src/shared/lib/color-formatter";
 
 type MixColorsFormProps = Omit<
   FormHTMLAttributes<HTMLFormElement>,
@@ -56,6 +56,7 @@ export const MixColorsForm = ({
       >
         {colors.map((color, i) => {
           const colorCount = mixCounts.get(color) ?? 0;
+          const formatter = colorFormatter(color);
 
           return (
             <li key={i}>
@@ -63,8 +64,8 @@ export const MixColorsForm = ({
                 variant="solid"
                 className="block p-0 min-w-full"
                 style={{
-                  backgroundColor: getRGBAStyle(color),
-                  color: getRGBAStyle(getTextColorByBg(color)),
+                  backgroundColor: formatter.style(),
+                  color: formatter.contrastColor().style(),
                 }}
                 onClick={handleColorClick(color)}
                 onLongPress={handleColorLongPress(color)}
