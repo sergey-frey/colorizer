@@ -4,8 +4,8 @@ import {
   useAddPaletteMutation,
   useAIPaletteMutation,
 } from "@/src/entities/palette";
-import { SearchParams } from "@/src/shared/constants/navigation";
-import { getPaletteLink } from "@/src/shared/lib/navigate";
+import { ROUTES, SearchParams } from "@/src/shared/constants/navigation";
+import { makeLink } from "@/src/shared/lib/navigate";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { cn } from "@nextui-org/theme";
@@ -35,7 +35,9 @@ export const PalettesListHeaderContent = ({
       .mutateAsync(data)
       .then((newPalette) => {
         router.push(
-          getPaletteLink(newPalette.id, { [SearchParams.from]: "/" }),
+          makeLink(ROUTES.palette(newPalette.id), {
+            [SearchParams.from]: ROUTES.home,
+          }),
         );
       })
       .finally(() => {

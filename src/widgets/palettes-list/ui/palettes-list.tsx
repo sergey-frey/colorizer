@@ -2,9 +2,9 @@
 
 import { CompactPaletteView, usePalettesQuery } from "@/src/entities/palette";
 import { DynamicHeaderContent } from "@/src/features/dynamic-header-content";
-import { SearchParams } from "@/src/shared/constants/navigation";
+import { ROUTES, SearchParams } from "@/src/shared/constants/navigation";
 import { getMockPalette } from "@/src/shared/lib/color";
-import { getPaletteLink } from "@/src/shared/lib/navigate";
+import { makeLink } from "@/src/shared/lib/navigate";
 import { WithFallback } from "@/src/shared/ui/with-fallback";
 import { Skeleton } from "@nextui-org/skeleton";
 import { cn } from "@nextui-org/theme";
@@ -40,8 +40,8 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
                     isShowFallback={palettesQuery.isLoading}
                   >
                     <Link
-                      href={getPaletteLink(palette.id, {
-                        [SearchParams.from]: "/",
+                      href={makeLink(ROUTES.palette(palette.id), {
+                        [SearchParams.from]: ROUTES.home,
                       })}
                     >
                       <CompactPaletteView palette={palette} />

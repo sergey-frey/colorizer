@@ -1,8 +1,8 @@
 "use client";
 
 import { useAddPaletteMutation } from "@/src/entities/palette";
-import { SearchParams } from "@/src/shared/constants/navigation";
-import { getPaletteLink } from "@/src/shared/lib/navigate";
+import { ROUTES, SearchParams } from "@/src/shared/constants/navigation";
+import { makeLink } from "@/src/shared/lib/navigate";
 import { Button, ButtonProps } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
@@ -20,7 +20,11 @@ export const AddPaletteButton = ({
     onClick?.(e);
 
     addPaletteMutation.mutateAsync({ colors: [] }).then((newPalette) => {
-      router.push(getPaletteLink(newPalette.id, { [SearchParams.from]: "/" }));
+      router.push(
+        makeLink(ROUTES.palette(newPalette.id), {
+          [SearchParams.from]: ROUTES.home,
+        }),
+      );
     });
   };
 

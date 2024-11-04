@@ -1,4 +1,6 @@
-import { ROUTES } from "@/src/shared/constants/navigation";
+import { ROUTES, SearchParams } from "@/src/shared/constants/navigation";
+import { makeLink } from "@/src/shared/lib/navigate";
+import { useFullPathname } from "@/src/shared/utils/use-full-pathname";
 import {
   AdjustmentsHorizontalIcon,
   Cog6ToothIcon,
@@ -23,6 +25,7 @@ export const ActionsDropdown = ({
   ...props
 }: ActionsDropdownProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const pathname = useFullPathname();
 
   const handleOptionClick = (key: PaletteActions) => () => {
     onClose();
@@ -46,7 +49,9 @@ export const ActionsDropdown = ({
         </Button>
         <Button
           as={Link}
-          href={ROUTES.settings.colors}
+          href={makeLink(ROUTES.settings.colors, {
+            [SearchParams.from]: pathname,
+          })}
           className="w-full justify-start"
           variant="light"
           startContent={<Cog6ToothIcon className="w-5" />}
