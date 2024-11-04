@@ -1,4 +1,4 @@
-import { aiPaletteService } from "@/src/entities/palette/model/ai-palette.service";
+import { aiPaletteService } from "@/src/server/ai/ai-palette.service";
 import { GetAIPaletteDto } from "@/src/shared/api/dto";
 import { NextResponse } from "next/server";
 

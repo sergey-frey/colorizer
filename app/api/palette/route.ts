@@ -1,5 +1,5 @@
+import { paletteDBRepo } from "@/src/server/db";
 import { AddPaletteDto } from "@/src/shared/api/dto";
-import { paletteDBRepo } from "@/src/shared/api/repos/palette-db.repo";
 import { Palette } from "@/src/shared/types/palette.types";
 import { NextRequest, NextResponse } from "next/server";
 

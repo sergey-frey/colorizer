@@ -1,9 +1,9 @@
-import { supabase } from "@/src/shared/api/supabase";
+import { AddPaletteDto } from "@/src/shared/api/dto";
 import { Database } from "@/src/shared/types/db.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { GenericSchema } from "@supabase/supabase-js/dist/module/lib/types";
-import { AddPaletteDto } from "../dto";
+import { supabase } from "./supabase";
 
 class PaletteDBRepo {
   private _instance: SupabaseClient<Database, "public", GenericSchema>;

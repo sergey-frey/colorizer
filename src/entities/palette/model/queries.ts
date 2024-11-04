@@ -3,7 +3,7 @@ import {
   GenerateAIPaletteDto,
   GetAIPaletteDto,
 } from "@/src/shared/api/dto";
-import { aiApi } from "@/src/shared/api/instance";
+import { aiApiRepo } from "@/src/shared/api/repos/ai-api.repo";
 import { paletteApiRepo } from "@/src/shared/api/repos/palette-api.repo";
 import { queryClient } from "@/src/shared/query-client";
 import { Palette } from "@/src/shared/types/palette.types";
@@ -51,13 +51,7 @@ export const useAIPaletteMutation = () => {
     mutationFn: ({
       amountOfColors,
     }: GetAIPaletteDto): Promise<GenerateAIPaletteDto> => {
-      return aiApi
-        .post("palette", {
-          json: {
-            amountOfColors,
-          },
-        })
-        .json();
+      return aiApiRepo.getPalette({ amountOfColors });
     },
   });
 };

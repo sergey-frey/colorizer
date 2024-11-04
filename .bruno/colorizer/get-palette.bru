@@ -5,11 +5,11 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/palette
+  url: {{baseUrl}}/api/palette?paletteId={{testPaletteId}}
   body: none
   auth: none
 }
 
 params:query {
-  ~paletteId: 030f79ee-4634-4dfc-906f-3c32e762feff
+  paletteId: {{testPaletteId}}
 }

@@ -1,0 +1,26 @@
+meta {
+  name: update-palette
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/palette
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "{{testPaletteId}}",
+    "colors": [
+      {
+        "r": 100,
+        "g": 100,
+        "b": 100,
+        "a": 1
+      }
+    ],
+    "title": "Updated Test Palette"
+  }
+}

@@ -1,4 +1,4 @@
-import { aiInstance } from "@/src/shared/api/ai-instance";
+import { aiInstance } from "@/src/server/ai/ai-instance";
 import { GenerateAIPaletteDto, GetAIPaletteDto } from "@/src/shared/api/dto";
 import { formatAIPalette } from "@/src/shared/lib/color";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
