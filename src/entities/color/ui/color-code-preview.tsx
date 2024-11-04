@@ -20,18 +20,43 @@ export const ColorCodePreview = ({
     <>
       <span
         {...props}
-        className={cn("text-xs", "md:hidden", className)}
+        className={cn("text-medium", "sm:text-medium", "md:hidden", className)}
         style={{ color: textColor }}
       >
         {colorFormatter(color).string(format)}
       </span>
 
-      <ul className={cn("hidden", "md:grid")} style={{ color: textColor }}>
-        <li>R: {color.r}</li>
-        <li>G: {color.g}</li>
-        <li>B: {color.b}</li>
-        <li>A: {color.a}</li>
-      </ul>
+      <DesktopPreview color={color} format={format} textColor={textColor} />
     </>
   );
+};
+
+const DesktopPreview = ({
+  color,
+  format,
+  textColor,
+}: {
+  color: Color;
+  format: ColorFormat;
+  textColor: string;
+}) => {
+  switch (format) {
+    case "rgba": {
+      return (
+        <ul className={cn("hidden", "md:grid")} style={{ color: textColor }}>
+          <li>R: {color.r}</li>
+          <li>G: {color.g}</li>
+          <li>B: {color.b}</li>
+          <li>A: {color.a}</li>
+        </ul>
+      );
+    }
+    case "hex": {
+      return (
+        <span className="hidden md:inline" style={{ color: textColor }}>
+          {colorFormatter(color).string("hex")}
+        </span>
+      );
+    }
+  }
 };
