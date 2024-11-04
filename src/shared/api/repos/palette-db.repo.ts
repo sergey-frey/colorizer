@@ -1,12 +1,11 @@
 import { supabase } from "@/src/shared/api/supabase";
 import { Database } from "@/src/shared/types/db.types";
 import { Palette } from "@/src/shared/types/palette.types";
-import { WithAbortSignal } from "@/src/shared/types/util.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { GenericSchema } from "@supabase/supabase-js/dist/module/lib/types";
 import { AddPaletteDto } from "../dto";
 
-class PaletteRepo {
+class PaletteDBRepo {
   private _instance: SupabaseClient<Database, "public", GenericSchema>;
 
   constructor(instance: SupabaseClient<Database, "public", GenericSchema>) {
@@ -17,8 +16,8 @@ class PaletteRepo {
     return this._instance.from("palettes");
   }
 
-  public async getAllPalettes({ signal }: WithAbortSignal) {
-    const query = this._query().select<"*", Palette>().abortSignal(signal);
+  public async getAllPalettes() {
+    const query = this._query().select<"*", Palette>();
 
     const { data, error } = await query;
 
@@ -29,14 +28,10 @@ class PaletteRepo {
     }
   }
 
-  public async getPaletteById(
-    paletteId: Palette["id"],
-    { signal }: WithAbortSignal,
-  ) {
+  public async getPaletteById(paletteId: Palette["id"]) {
     const query = this._query()
       .select<"*", Palette>("*")
-      .eq<Palette["id"]>("id", paletteId)
-      .abortSignal(signal);
+      .eq<Palette["id"]>("id", paletteId);
 
     const { data, error } = await query;
 
@@ -50,13 +45,17 @@ class PaletteRepo {
   public async updatePalette(palette: Palette) {
     const query = this._query()
       .update({ ...palette })
-      .eq<Palette["id"]>("id", palette.id);
+      .eq<Palette["id"]>("id", palette.id)
+      .select()
+      .returns<Palette[]>();
 
-    const { error } = await query;
+    const { data, error } = await query;
 
     if (error) {
       throw new Error("SupabaseError: 'addColorToPalette' finished with error");
     }
+
+    return data[0];
   }
 
   public async addPalette(dto: AddPaletteDto) {
@@ -87,4 +86,4 @@ class PaletteRepo {
   }
 }
 
-export const paletteRepo = new PaletteRepo(supabase);
+export const paletteDBRepo = new PaletteDBRepo(supabase);

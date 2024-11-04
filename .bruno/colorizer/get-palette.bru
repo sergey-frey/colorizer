@@ -1,0 +1,15 @@
+meta {
+  name: get-palette
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/palette
+  body: none
+  auth: none
+}
+
+params:query {
+  ~paletteId: 030f79ee-4634-4dfc-906f-3c32e762feff
+}

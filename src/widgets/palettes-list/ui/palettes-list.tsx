@@ -19,7 +19,7 @@ export const PalettesList = ({ className, ...props }: PalettesListProps) => {
   const palettesQuery = usePalettesQuery();
   const palettes = palettesQuery.isLoading
     ? Array.from({ length: 5 }, getMockPalette)
-    : palettesQuery.data!;
+    : (palettesQuery.data ?? []);
 
   return (
     <>
