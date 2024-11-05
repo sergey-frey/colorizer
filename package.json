@@ -33,6 +33,7 @@
     "react-color-palette": "^7.3.0",
     "react-dom": "^18",
     "react-responsive": "^10.0.0",
+    "react-toastify": "^10.0.6",
     "tailwind-merge": "^2.5.2",
     "use-long-press": "^3.2.0",
     "zustand": "^5.0.0"

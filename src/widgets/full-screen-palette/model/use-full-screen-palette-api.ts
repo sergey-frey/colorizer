@@ -3,9 +3,15 @@ import {
   usePalettesByIdQuery,
   useUpdatePaletteMutation,
 } from "@/src/entities/palette";
+import {
+  colorFormatSelector,
+  useColorDisplaySettings,
+} from "@/src/features/color-display-settings";
 import { Color } from "@/src/shared/types/color.types";
 import { Palette } from "@/src/shared/types/palette.types";
 import { useBackNavigate } from "@/src/shared/utils/use-back-navigate";
+import { toast } from "react-toastify";
+import { TOAST_MESSAGES } from "../constants/toast-messages";
 import { getLoadingStates } from "./loading-states";
 
 type UseFullScreenPaletteApiOptions = {
@@ -23,6 +29,8 @@ export const useFullScreenPaletteApi = ({
 
   const { navigateBack } = useBackNavigate();
 
+  const format = useColorDisplaySettings(colorFormatSelector);
+
   const loadingStates = getLoadingStates(
     paletteQuery,
     updatePaletteMutation,
@@ -37,13 +45,26 @@ export const useFullScreenPaletteApi = ({
       colors: paletteQuery.data.colors.concat([color]),
     };
 
-    updatePaletteMutation.mutateAsync(newPalette);
+    updatePaletteMutation
+      .mutateAsync(newPalette)
+      .then(() => toast.success(TOAST_MESSAGES.success.addColor(color, format)))
+      .catch(() => toast.error(TOAST_MESSAGES.error.addColor(color, format)));
   };
 
   const deletePaletteConfirm = (onClose: () => void) => {
     deletePaletteMutation
       .mutateAsync(paletteId)
-      .then(navigateBack)
+      .then(() => {
+        toast.success(
+          TOAST_MESSAGES.success.deletePalette(paletteQuery.data?.title ?? ""),
+        );
+        navigateBack();
+      })
+      .catch(() =>
+        toast.error(
+          TOAST_MESSAGES.error.deletePalette(paletteQuery.data?.title ?? ""),
+        ),
+      )
       .finally(onClose);
   };
 
@@ -53,10 +74,17 @@ export const useFullScreenPaletteApi = ({
 
     if (!paletteQuery.isSuccess || !titleHasBeenChanged) return;
 
-    updatePaletteMutation.mutateAsync({
-      ...paletteQuery.data,
-      title: updatedPaletteTitle,
-    });
+    updatePaletteMutation
+      .mutateAsync({
+        ...paletteQuery.data,
+        title: updatedPaletteTitle,
+      })
+      .then(() =>
+        toast.success(TOAST_MESSAGES.success.titleUpdate(updatedPaletteTitle)),
+      )
+      .catch(() =>
+        toast.error(TOAST_MESSAGES.error.titleUpdate(updatedPaletteTitle)),
+      );
   };
 
   const deleteColorConfirm = (onClose: () => void) => {
@@ -69,7 +97,15 @@ export const useFullScreenPaletteApi = ({
       ),
     };
 
-    updatePaletteMutation.mutateAsync(newPalette).finally(onClose);
+    updatePaletteMutation
+      .mutateAsync(newPalette)
+      .then(() => {
+        toast.success(TOAST_MESSAGES.success.deleteColor(workingColor, format));
+      })
+      .catch(() =>
+        toast.error(TOAST_MESSAGES.error.deleteColor(workingColor, format)),
+      )
+      .finally(onClose);
   };
 
   return {

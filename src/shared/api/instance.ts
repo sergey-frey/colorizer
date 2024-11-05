@@ -6,4 +6,5 @@ export const aiApi = ky.create({
 
 export const paletteApi = ky.create({
   prefixUrl: "/api/palette",
+  throwHttpErrors: false,
 });

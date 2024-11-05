@@ -1,8 +1,4 @@
-import {
-  AddPaletteDto,
-  GenerateAIPaletteDto,
-  GetAIPaletteDto,
-} from "@/src/shared/api/dto";
+import { GenerateAIPaletteDto, GetAIPaletteDto } from "@/src/shared/api/dto";
 import { aiApiRepo } from "@/src/shared/api/repos/ai-api.repo";
 import { paletteApiRepo } from "@/src/shared/api/repos/palette-api.repo";
 import { queryClient } from "@/src/shared/query-client";
@@ -21,7 +17,7 @@ const getPaletteWithIdKey = (id?: Palette["id"]) => {
 
 export const usePalettesQuery = () => {
   return useQuery<Palette[]>({
-    queryFn: () => paletteApiRepo.getAllPalettes(),
+    queryFn: paletteApiRepo.getAllPalettes,
     queryKey: [ALL_PALETTES_KEY],
   });
 };
@@ -33,16 +29,18 @@ export const usePalettesByIdQuery = (paletteId: Palette["id"]) => {
   });
 };
 
-export const useUpdatePaletteMutation = (paletteId?: Palette["id"]) => {
+export const useUpdatePaletteMutation = (
+  paletteId?: Palette["id"],
+  options?: UseMutationOptions<Palette, Error, Palette, unknown>,
+) => {
   return useMutation({
-    mutationFn: (palette: Palette) => {
-      return paletteApiRepo.updatePalette(palette);
-    },
+    mutationFn: paletteApiRepo.updatePalette,
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [getPaletteWithIdKey(paletteId)],
       });
     },
+    ...options,
   });
 };
 
@@ -58,7 +56,7 @@ export const useAIPaletteMutation = () => {
 
 export const useAddPaletteMutation = () => {
   return useMutation({
-    mutationFn: (dto: AddPaletteDto) => paletteApiRepo.addPalette(dto),
+    mutationFn: paletteApiRepo.addPalette,
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [ALL_PALETTES_KEY],

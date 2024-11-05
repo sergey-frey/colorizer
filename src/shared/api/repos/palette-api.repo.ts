@@ -1,7 +1,8 @@
-import { KyInstance } from "ky";
-import { paletteApi } from "../instance";
-import { Palette } from "../../types/palette.types";
+import { ApiResponse } from "@/src/shared/types/api.types";
+import { Palette } from "@/src/shared/types/palette.types";
+import { KyInstance, KyResponse } from "ky";
 import { AddPaletteDto } from "../dto";
+import { paletteApi } from "../instance";
 
 class PaletteApiRepo {
   private _instance: KyInstance;
@@ -10,23 +11,43 @@ class PaletteApiRepo {
     this._instance = instance;
   }
 
-  public getAllPalettes() {
-    return this._instance.get<Palette[]>("").json();
+  private async _handle<T>(response: KyResponse<ApiResponse<T>>) {
+    const parsedResponse = await response.json();
+
+    if (!response.ok) {
+      throw new Error(parsedResponse?.message ?? "Unexpected error");
+    }
+
+    return parsedResponse.data;
   }
 
-  public getPaletteById(paletteId: Palette["id"]) {
-    return this._instance
-      .get<Palette>("", { searchParams: { paletteId } })
-      .json();
-  }
+  public getAllPalettes = async () => {
+    return this._handle<Palette[]>(
+      await this._instance.get<ApiResponse<Palette[]>>(""),
+    );
+  };
 
-  public addPalette(dto: AddPaletteDto) {
-    return this._instance.post<Palette>("", { json: dto }).json();
-  }
+  public getPaletteById = async (paletteId: Palette["id"]) => {
+    return this._handle(
+      await this._instance.get<ApiResponse<Palette>>("", {
+        searchParams: { paletteId },
+      }),
+    );
+  };
 
-  public updatePalette(palette: Palette) {
-    return this._instance.put<Palette>("", { json: palette }).json<Palette>();
-  }
+  public addPalette = async (dto: AddPaletteDto) => {
+    return this._handle<Palette>(
+      await this._instance.post<ApiResponse<Palette>>("", {
+        json: dto,
+      }),
+    );
+  };
+
+  public updatePalette = async (palette: Palette) => {
+    return this._handle<Palette>(
+      await this._instance.put<Palette>("", { json: palette }),
+    );
+  };
 
   public deletePalette(paletteId: Palette["id"]) {
     return this._instance

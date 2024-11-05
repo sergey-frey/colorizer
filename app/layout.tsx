@@ -1,11 +1,11 @@
+import { Header } from "@/src/widgets/header";
+import "@fontsource-variable/montserrat";
 import { cn } from "@nextui-org/react";
 import type { Metadata } from "next";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-
-// Supports weights 100-900
-import "@fontsource-variable/montserrat";
 import { Providers } from "./providers";
-import { Header } from "@/src/widgets/header";
 
 export const metadata: Metadata = {
   title: "Colorizer",
@@ -23,6 +23,7 @@ export default function RootLayout({
         <Providers>
           <Header className="header" />
           <main className={cn("main")}>{children}</main>
+          <ToastContainer position="bottom-right" />
         </Providers>
       </body>
     </html>
